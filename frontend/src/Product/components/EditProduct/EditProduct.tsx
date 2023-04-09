@@ -1,6 +1,7 @@
 import {useParams,Outlet} from 'react-router-dom'
 
 export function EditProductPage(){
+    
     return(
         <div>
             <h1>Texto EditProduct</h1>

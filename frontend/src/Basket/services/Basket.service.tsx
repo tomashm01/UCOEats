@@ -8,17 +8,16 @@ const uuid = {
     v4: () => '1234'
 }
 
-const createBasket = ():Basket => ({
+const createBasket = (): Basket => ({
     id: uuid.v4(),
     items: [],
-    total: 0
-})
+    total: 0,
+  });
   
 
-const clearBasket = (basket: Basket): Basket => {
-    basket.items = [];
-    return basket;
-}
+  const clearBasket = (basket: Basket): Basket => {
+    return { ...basket, items: [] };
+  };
 
 function productToBasketProduct(product: Product): BasketProduct {
     return {
@@ -30,32 +29,34 @@ function productToBasketProduct(product: Product): BasketProduct {
     };
 }
 
-  const addProductToBasket = (product: Product, basket: Basket): Basket =>{
-    const index = basket.items.findIndex(item => item.id === product.id);
+const addProductToBasket = (product: Product, basket: Basket): Basket => {
+    const index = basket.items.findIndex((item) => item.id === product.id);
+    const newItems = [...basket.items];
+  
     if (index >= 0) {
-        basket.items[index].quantity += 1;
-    }else{
-        basket.items.push(productToBasketProduct(product));
+      newItems[index] = { ...newItems[index], quantity: newItems[index].quantity + 1 };
+    } else {
+      newItems.push(productToBasketProduct(product));
     }
-    return basket;
+  
+    return { ...basket, items: newItems };
+  };
 
-}
 
-
-const removeProductFromBasket = (productId: string, basket: Basket): Basket =>{
-    console.log(productId)
-    const index = basket.items.findIndex(item => item.id === productId);
+const removeProductFromBasket = (productId: string, basket: Basket): Basket => {
+    const index = basket.items.findIndex((item) => item.id === productId);
+    const newItems = [...basket.items];
+  
     if (index >= 0) {
-        if(basket.items[index].quantity > 1){
-            basket.items[index].quantity -= 1;
-        }else{
-            basket.items.splice(index, 1);
-        }
-        
+      if (newItems[index].quantity > 1) {
+        newItems[index] = { ...newItems[index], quantity: newItems[index].quantity - 1 };
+      } else {
+        newItems.splice(index, 1);
+      }
     }
-
-    return basket;
-}
+  
+    return { ...basket, items: newItems };
+  };
 
 const getTotalPriceFromBasket = (basket:Basket ): number =>{
     const totalPrice = basket.items.reduce((totalPrice, product) => totalPrice + product.price * product.quantity, 0);

@@ -1,12 +1,10 @@
 import './ProductCard.css'
 import {ProductCardProps} from '../../domain/ProductCardProps';
-import { useCallback, useEffect, useState } from 'react';
 
 export default function ProductCard(props:ProductCardProps){
     const {product,addProduct} = props;
 
     function useLinkClickHandler(){ 
-        console.log("useLinkClickHandler");
         addProduct(product)
     }
 

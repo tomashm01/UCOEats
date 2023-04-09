@@ -8,7 +8,7 @@ interface paths {
     value: string
 }
 
-function Header() {
+function Header({role}:{role:string} ) {
     const {basket, getTotalItems} = useBasket();
     const [totalItems, setTotalItems] = useState(0);
 
@@ -21,15 +21,15 @@ function Header() {
         {path:"AddProduct",value:"AddProduct"},
         {path:"EditProduct",value:"EditProduct"},
         {path:"RemoveProduct",value:"RemoveProduct"},
-        {path:"",value:"UcoEats"}
+        {path:"",value:"UcoEats"},
     ]
     const userPaths:paths[]=[
         {path:"ModifyUser",value:"ModifyUser"},
-        {path:"",value:"UcoEats"},
+        {path:"ProductList",value:"UcoEats"},
+        {path:"ProductList",value:"UcoEats"},
         {path:"Basket",value:"Cesta"}
     ]
-
-    const currentUser = (false) ? adminPaths : userPaths
+    const currentUser = (role =="admin") ? adminPaths : userPaths
     return( 
         <header>
             <ul>

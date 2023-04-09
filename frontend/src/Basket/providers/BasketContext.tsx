@@ -16,16 +16,17 @@ export function useBasket() {
   return context;
 }
 
-export default function BasketProvider({ children }: { children: React.ReactNode }) {
-  console.log("BasketProvider")
-  const [state, dispatch] = useReducer(basketReducer,initialState);
 
+function reducer (){
+  return useReducer(basketReducer,initialState);
+}
+
+export default function BasketProvider({ children }: { children: React.ReactNode }) {
+  const [state, dispatch] = reducer();
 
     const addProduct = (product:Product) => {
-        console.log("addProduct1");
         dispatch({ type: "ADD_PRODUCT", payload:product  });
         updatePrice();
-        console.log("addProduct2");
     };
     
     const removeProduct = (productId:string ) => {
@@ -51,7 +52,7 @@ export default function BasketProvider({ children }: { children: React.ReactNode
         addProduct,
         removeProduct,
         clearBasket,
-        getTotalItems
+        getTotalItems,
 
     };
 

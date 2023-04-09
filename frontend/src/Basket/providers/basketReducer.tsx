@@ -6,7 +6,7 @@ import basketService      from "../services/Basket.service"
 export const initialState:Basket = basketService.createBasket();
 
 const basketReducer = (state: Basket, action: BasketAction) => {
-    console.log(action.type)
+
     switch (action.type) {
         case "ADD_PRODUCT":
             return basketService.addProductToBasket(action.payload, state);
@@ -17,8 +17,9 @@ const basketReducer = (state: Basket, action: BasketAction) => {
         case "UPDATE_PRICE":
             return {...state,total: basketService.getTotalPriceFromBasket(state)};
         default:
-            throw new Error(`No case for type ${action.type} found in shopReducer.`);
+            return state;
         }
 };
+
 
 export default basketReducer;
