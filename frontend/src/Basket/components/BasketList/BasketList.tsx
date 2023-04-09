@@ -1,23 +1,19 @@
 import './BasketList.css'
 import BasketCard from '../BasketCard/BasketCard'
-import { useBasket, useBasketDispatch } from '../../providers/BasketContext'
+import { useBasket } from '../../providers/BasketContext'
 import { useEffect, useState } from 'react';
 
 export default function BasketList(){
-    const basket= useBasket()
-    const dispatcher = useBasketDispatch()
-
+    const {basket, removeProduct}= useBasket()
     const [items, setItems] = useState(basket.items);
-    const [update, setUpdate] = useState(false);
 
     const handleRemoveProduct = (productId: string) => {
-        dispatcher.removeProduct(productId);
-        setUpdate(!update);
+        removeProduct(productId);
     }
 
     useEffect(() => {
         setItems(basket.items);
-    }, [basket.items, update]);
+    }, [basket]);
 
 
     return (
@@ -34,7 +30,7 @@ export default function BasketList(){
             </div>
             <div className="carro-dinero">
                 <h1>Total:</h1>
-                <h1>{dispatcher.getTotalPrice()}€</h1>
+                <h1>{basket.total}€</h1>
             </div>
         </div>
     )

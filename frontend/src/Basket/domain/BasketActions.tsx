@@ -1,8 +1,9 @@
-import { BasketProduct } from "./BasketProduct";
+import { Product } from "../../Product/domain/Product";
 
 
 export type BasketAction =
-  | { type: "ERROR_DOUBLE" }
-  | { type: "ADD_PRODUCT"; payload: BasketProduct }
+  | { type: "ADD_PRODUCT"; payload: Product }
   | { type: "REMOVE_PRODUCT"; payload: string }
-  | { type: "CLEAR_BASKET" };
+  | { type: "UPDATE_PRICE" }
+  | { type: "CLEAR_BASKET" }
+  | { type: "UNKNOWN_ACTION"; payload: never };

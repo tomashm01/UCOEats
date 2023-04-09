@@ -1,6 +1,7 @@
 //import * as uuid from 'uuid'
 import { BasketProduct } from '../domain/BasketProduct'
 import { Basket } from '../domain/Basket'
+import { Product } from '../../Product/domain/Product'
 
 //mock
 const uuid = {
@@ -10,7 +11,8 @@ const uuid = {
 const createBasket = ():Basket => ({
     id: uuid.v4(),
     items: [],
-  })
+    total: 0
+})
   
 
 const clearBasket = (basket: Basket): Basket => {
@@ -18,18 +20,27 @@ const clearBasket = (basket: Basket): Basket => {
     return basket;
 }
 
+function productToBasketProduct(product: Product): BasketProduct {
+    return {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        imageURL: product.imageURL,
+        quantity: 1,
+    };
+}
 
-const addProductToBasket = (product: BasketProduct, basket: Basket): Basket =>{
+  const addProductToBasket = (product: Product, basket: Basket): Basket =>{
     const index = basket.items.findIndex(item => item.id === product.id);
     if (index >= 0) {
         basket.items[index].quantity += 1;
     }else{
-        basket.items.push(product);
+        basket.items.push(productToBasketProduct(product));
     }
-
-    return basket
+    return basket;
 
 }
+
 
 const removeProductFromBasket = (productId: string, basket: Basket): Basket =>{
     console.log(productId)
@@ -43,19 +54,19 @@ const removeProductFromBasket = (productId: string, basket: Basket): Basket =>{
         
     }
 
-    return basket
+    return basket;
 }
 
-const getTotalPriceFromBasket = (items:BasketProduct[] ): number =>{
-    const totalPrice = items.reduce((totalPrice, product) => totalPrice + product.price * product.quantity, 0);
+const getTotalPriceFromBasket = (basket:Basket ): number =>{
+    const totalPrice = basket.items.reduce((totalPrice, product) => totalPrice + product.price * product.quantity, 0);
     const formattedNumber = parseFloat(totalPrice.toFixed(2));
     return formattedNumber;
 }
-const getTotalItems = (items:BasketProduct[] ) => {
-    return items.reduce((totalItems, product) => totalItems + product.quantity, 0);
+const getTotalItems = (basket:Basket ) => {
+    return basket.items.reduce((totalItems, product) => totalItems + product.quantity, 0);
 }
 
- export  const basketService = {
+const basketService = {
     createBasket,
     addProductToBasket,
     removeProductFromBasket,
@@ -63,3 +74,5 @@ const getTotalItems = (items:BasketProduct[] ) => {
     getTotalItems,
     clearBasket
 }
+
+export default basketService;

@@ -10,6 +10,7 @@ import ProductList                  from './Product/components/ProductList/Produ
 import BasketList                   from './Basket/components/BasketList/BasketList'
 
 import BasketProvider from './Basket/providers/BasketContext'
+import basketService from './Basket/services/Basket.service'
 
 
 
@@ -44,7 +45,7 @@ const ProtectedRoute=({user,children}:ProtectedRouteProps)=>{
 
 
 export default function App() {
-
+  console.log (basketService.createBasket());
     const product1 = {
         id: '1',
         name: 'Pizza de pepperoni',

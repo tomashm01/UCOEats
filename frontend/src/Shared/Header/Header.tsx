@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useBasket, useBasketDispatch } from '../../Basket/providers/BasketContext'
+import { useBasket, } from '../../Basket/providers/BasketContext'
 import './Header.css'
 import { Link } from 'react-router-dom'
 
@@ -9,13 +9,12 @@ interface paths {
 }
 
 function Header() {
-    const basket = useBasket();
-    const basketDispatcher = useBasketDispatch();
-    const [totalItems, setTotalItems] = useState(basketDispatcher.getTotalItems());
+    const {basket, getTotalItems} = useBasket();
+    const [totalItems, setTotalItems] = useState(0);
 
     useEffect(() => {
-        setTotalItems(basketDispatcher.getTotalItems());
-    }, [basket, basketDispatcher]);
+        setTotalItems(getTotalItems());
+    }, [basket]);
   
     const adminPaths:paths[]=[
         {path:"ModifyUser",value:"ModifyUser"},

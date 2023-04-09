@@ -4,13 +4,14 @@ import ProductCard from '../ProductCard/ProductCard';
 import { Product } from '../../domain/Product';
 import  getAllProducts  from '../../services/getAllProducts';
 import { useEffect, useState } from 'react';
-import { useBasket, useBasketDispatch } from '../../../Basket/providers/BasketContext';
+import { useBasket } from '../../../Basket/providers/BasketContext';
+
 
 
 export default function ProductList(){
     const [products, setProducts] = useState<Product[]>([]);
 
-    const {addProduct} = useBasketDispatch();
+    const {addProduct, removeProduct} = useBasket();
 
     useEffect(() => {
             setProducts(getAllProducts());

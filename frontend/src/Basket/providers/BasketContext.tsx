@@ -1,10 +1,12 @@
-import { createContext, useContext, useEffect } from "react";
-import useBasketReducer from "./BasketProvider";
+import { createContext, useContext, useReducer} from "react";
 import { Basket } from "../domain/Basket";
-import { BasketDispatchType } from "../domain/BasketDispatchType";
 
-export const BasketContext = createContext<Basket|null>(null);
-export const BasketDispatchContext = createContext<BasketDispatchType|null>(null);
+import basketReducer,{ initialState } from "./basketReducer";
+import { Product } from "../../Product/domain/Product";
+import { BasketUseContext } from "../domain/BasketUseContext";
+import basketService  from "../services/Basket.service";
+
+export const BasketContext = createContext<BasketUseContext>({} as BasketUseContext);
 
 export function useBasket() {
   const context = useContext(BasketContext);
@@ -14,23 +16,49 @@ export function useBasket() {
   return context;
 }
 
-export function useBasketDispatch() {
-  const context = useContext(BasketDispatchContext);
-  if (!context) {
-    throw new Error("useBasketDispatch must be used within a BasketProvider");
-  }
-  return context;
-}
-
 export default function BasketProvider({ children }: { children: React.ReactNode }) {
   console.log("BasketProvider")
-  const {basket, basketFunctions} = useBasketReducer();
+  const [state, dispatch] = useReducer(basketReducer,initialState);
+
+
+    const addProduct = (product:Product) => {
+        console.log("addProduct1");
+        dispatch({ type: "ADD_PRODUCT", payload:product  });
+        updatePrice();
+        console.log("addProduct2");
+    };
+    
+    const removeProduct = (productId:string ) => {
+        dispatch({ type: "REMOVE_PRODUCT", payload: productId });
+        updatePrice();
+    };
+    
+    const clearBasket = () => {
+        dispatch({ type: "CLEAR_BASKET" });
+    };
+
+    const updatePrice= ()=>{
+        dispatch({ type: "UPDATE_PRICE" });
+    };
+
+    const getTotalItems = () => {
+      return basketService.getTotalItems(state);
+    };
+
+
+    const value:BasketUseContext  = {
+        basket: state,
+        addProduct,
+        removeProduct,
+        clearBasket,
+        getTotalItems
+
+    };
 
   return (
-    <BasketContext.Provider value={basket}>
-      <BasketDispatchContext.Provider value={basketFunctions}>
+    <BasketContext.Provider value={value}>
       {children}
-      </BasketDispatchContext.Provider>
+
     </BasketContext.Provider>
   );
 }
