@@ -10,4 +10,4 @@ export class CreateUsuario {
     }
 }
 
-module.exports = { CreateUsuario }
+export default CreateUsuario;
