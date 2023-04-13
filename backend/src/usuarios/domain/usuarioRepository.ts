@@ -4,5 +4,5 @@ export interface UsuarioRepository {
     delete(usuario: Usuario): Promise<void>;
     findAll(): Promise<Usuario[]>;
     findById(id: number): Promise<Usuario>;
-    modify(id: number): Promise<void>
+    modify(usuario: Usuario): Promise<void>
 }
