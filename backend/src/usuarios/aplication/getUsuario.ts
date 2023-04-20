@@ -5,7 +5,7 @@ export class GetUsuario {
 
     constructor(private repository: UsuarioRepository) { }
 
-    async execute(id:number):Promise<Usuario> {
+    async execute(id:string):Promise<Usuario> {
         return await this.repository.findById(id);
     }
 }

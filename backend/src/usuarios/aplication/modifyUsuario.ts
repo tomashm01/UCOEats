@@ -5,10 +5,17 @@ export class ModifyUsuario {
 
     constructor(private repository: UsuarioRepository) { }
 
-    async execute(id: number):Promise<void> {
-        const usuario = await this.repository.findById(id);
-        if (!usuario) throw new Error("Usuario no encontrado");
-        await this.repository.modify(usuario);
+    async execute(data:{
+        uuid: string;
+        name: string;
+        surname: string;
+        email: string;
+        password: string;
+        type: string;
+        phone: number;
+    }):Promise<boolean> {
+        const usuario = new Usuario(data.name, data.surname, data.email, data.password, data.type, data.phone,data.uuid);
+        return await this.repository.modify(usuario);
     }
 }
 

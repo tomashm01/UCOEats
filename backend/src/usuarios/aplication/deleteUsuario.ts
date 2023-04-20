@@ -4,10 +4,10 @@ export class DeleteUsuarioById {
 
     constructor(private repository: UsuarioRepository) { }
 
-    async execute(id: number): Promise<void> {
+    async execute(id: string): Promise<boolean> {
         const usuario = await this.repository.findById(id);
         if (!usuario) throw new Error("Usuario no encontrado");
-        await this.repository.delete(usuario);
+        return await this.repository.remove(id);
     }
 }
 

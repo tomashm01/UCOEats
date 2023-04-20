@@ -1,20 +1,29 @@
+import { v4 as uuidv4, validate } from 'uuid';
+
+import { RolUser } from './RolUser';
+import { Phone } from './Phone';
+import { Email } from './Email';
+
 export class Usuario{
 
-    id: number;
-    nombre: string;
-    apellidos: string;
-    email: string;
+    id: uuidv4;
+    name: string;
+    surname: string;
+    email: Email;
     password: string;
-    type: string;
+    type: RolUser;
+    phone: Phone;
 
-    constructor(id: number, nombre: string, apellidos: string, email: string, password: string, type: string){
-        this.id = id;
-        this.nombre = nombre;
-        this.apellidos=apellidos;
+    constructor(name: string, surname: string, email: string, password: string, type: string,phone: number,id?:string){
+        this.id=(id && validate(id)) ? id : uuidv4();
+        this.name = name;
+        this.surname=surname;
         this.password=password;
-        if(type!="admin" && type!="user") throw new Error("Tipo debe ser user/admin");
-        else this.type=type;
-        this.email = email;
+        this.phone=new Phone(phone);
+        if (type !== RolUser.ADMIN && type !== RolUser.USER)
+            throw new Error('Tipo debe ser user/admin');
+        else this.type = type as RolUser;
+        this.email = new Email(email);
     }
 
-} 
+}

@@ -7,11 +7,68 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model PP {
+  peuid     String    @db.VarChar(64)
+  puid      String    @db.VarChar(64)
+  cantidad  Int
+  precio    Int
+  pedidos   pedidos   @relation(fields: [peuid], references: [peuid], onDelete: NoAction, onUpdate: NoAction, map: "PP_ibfk_1")
+  productos productos @relation(fields: [puid], references: [puid], onDelete: NoAction, onUpdate: NoAction, map: "PP_ibfk_2")
+
+  @@id([peuid, puid])
+  @@index([puid], map: "puid")
+}
+
+model categorias {
+  cuid      String      @id @db.VarChar(64)
+  categoria String      @db.VarChar(64)
+  productos productos[]
+}
+
+model pedidos {
+  peuid     String         @id @db.VarChar(64)
+  usid      String         @db.VarChar(64)
+  importe   Int
+  fcreacion DateTime       @db.DateTime(0)
+  fentrega  DateTime       @db.DateTime(0)
+  estado    pedidos_estado
+  PP        PP[]
+  usuarios  usuarios       @relation(fields: [usid], references: [uuid], onDelete: NoAction, onUpdate: NoAction, map: "pedidos_ibfk_1")
+
+  @@index([usid], map: "usid")
+}
+
+model productos {
+  puid       String     @id @db.VarChar(64)
+  producto   String     @db.VarChar(64)
+  precio     Int
+  stock      Int
+  cuid       String     @db.VarChar(64)
+  imagen     String     @db.VarChar(64)
+  PP         PP[]
+  categorias categorias @relation(fields: [cuid], references: [cuid], onDelete: NoAction, onUpdate: NoAction, map: "productos_ibfk_1")
+
+  @@index([cuid], map: "cuid")
+}
+
 model usuarios {
-  id     Int    @id @default(autoincrement())
-  nombre String @db.VarChar(50)
-  apellidos String @db.VarChar(50)
-  email  String @db.VarChar(50)
-  password String @db.VarChar(50)
-  type String @db.VarChar(50)
+  uuid      String        @id @db.VarChar(64)
+  nombre    String        @db.VarChar(64)
+  apellidos String        @db.VarChar(64)
+  email     String        @unique(map: "email") @db.VarChar(64)
+  password  String        @db.VarChar(64)
+  telefono  Int
+  tipo      usuarios_tipo
+  pedidos   pedidos[]
+}
+
+enum pedidos_estado {
+  creado
+  preparacion
+  terminado
+}
+
+enum usuarios_tipo {
+  admin
+  user
 }
