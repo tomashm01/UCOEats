@@ -1,8 +1,9 @@
 import { Usuario } from './usuario';
+
 export interface UsuarioRepository {
-    create(usuario: Usuario): Promise<number>;
-    delete(usuario: Usuario): Promise<void>;
+    create(usuario: Usuario): Promise<Usuario>;
+    modify(usuario: Usuario): Promise<boolean>
+    remove(id:string): Promise<boolean>;
+    findById(id: string): Promise<Usuario>;
     findAll(): Promise<Usuario[]>;
-    findById(id: number): Promise<Usuario>;
-    modify(usuario: Usuario): Promise<void>
 }
