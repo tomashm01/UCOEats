@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import userRouter from "./usuarios/infraestructure/usuarioRouter";
+import productRouter from "./productos/infraestructure/productoRouter";
+
 //require("dotenv").config();
 
 async function bootstrap(){
@@ -16,7 +18,7 @@ async function bootstrap(){
     });
 
     app.use("/api/user", userRouter);
-    
+    app.use("/api/product", productRouter);
 
     app.listen(port, () => {
         return console.log(`server is listening ${port}`);
