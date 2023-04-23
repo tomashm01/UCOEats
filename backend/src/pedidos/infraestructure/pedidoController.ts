@@ -24,30 +24,45 @@ export class PedidoMysqlController implements PedidoRepository{
     }
 
     async create(pedido:Pedido): Promise<Pedido>{
-        
-        const dbDelivery= await this.prisma.pedidos.create({
-            data: {
-                peuid    :  pedido.id,
-                usid        : pedido.usid,
-                importe        : pedido.quantity,
-                fcreacion    : pedido.dataCreation,
-                fentrega   : pedido.dataDelivery,
-                estado       : pedido.state,
+        const dateString = pedido.dataCreation;
+        const dateObject = new Date(dateString);
+        const dateObject2 = new Date(pedido.dataDelivery);
+        let dbDelivery=null;
+        try {
+            // Código que puede lanzar una excepción
+            dbDelivery= await this.prisma.pedidos.create({
+                data: {
+                    peuid    :  pedido.id,
+                    usid        : pedido.usid,
+                    importe        : pedido.quantity,
+                    fcreacion    : dateObject,
+                    fentrega   :dateObject2,
+                    estado       : pedido.state,
+                }
+            });
+          } catch (error) {
+            if (error.code === 'P2003') {
+              console.log('El id del usuario no existe.');
+            } else {
+              console.log(`Se ha producido un error: ${error.message}`);
             }
-        });
-        console.log(dbDelivery);
+          }
+        
         return new Pedido(dbDelivery.importe,dbDelivery.fcreacion,dbDelivery.fentrega,dbDelivery.estado,dbDelivery.usid,dbDelivery.peuid);
 
     }
 
     
     async modify(pedido:Pedido): Promise<boolean> {
+        const dateString = pedido.dataCreation;
+        const dateObject = new Date(dateString);
+        const dateObject2 = new Date(pedido.dataDelivery);
         const data = {
             usid      : pedido.usid,
             importe   : pedido.quantity,
-            fentrega       : pedido.dataDelivery,
-            fcreacion    : pedido.dataCreation,
-            esatdo        : pedido.state,
+            fentrega       : dateObject,
+            fcreacion    : dateObject2,
+            estado        : pedido.state,
         };
     
         const product= await this.prisma.pedidos.update({

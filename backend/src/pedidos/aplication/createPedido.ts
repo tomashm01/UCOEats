@@ -17,7 +17,6 @@ export class CreatePedido {
       deliveryData.state,
       deliveryData.usid,
     );
-    console.log(deliveryData);
     return await this.repository.create(pedido);
   }
 }
