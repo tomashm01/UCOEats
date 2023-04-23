@@ -15,10 +15,9 @@ export class CreateProducto {
       productData.name,
       productData.price,
       productData.stock,
-      productData.cuid,
-      productData.imagen
+      productData.imagen,
+      productData.cuid
     );
-    
     return await this.repository.create(producto);
   }
 }

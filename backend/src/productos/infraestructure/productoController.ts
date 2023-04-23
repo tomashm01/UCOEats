@@ -24,21 +24,29 @@ export class ProductoMysqlController implements ProductoRepository{
     }
 
     async create(producto:Producto): Promise<Producto>{
-        const dbProduct= await this.prisma.productos.create({
-            data: {
-                puid        : producto.id,
-                producto    : producto.name,
-                precio   : producto.price,
-                stock       : producto.stock,
-                imagen    : producto.imagen,
-                cuid        : producto.cuid,
-            }
-        });
+        let dbProduct=null;
 
+        try {
+            dbProduct= await this.prisma.productos.create({
+                data: {
+                    puid        : producto.id,
+                    producto    : producto.name,
+                    precio   : producto.price,
+                    stock       : producto.stock,
+                    imagen    : producto.imagen,
+                    cuid       : producto.cuid,
+                }
+            });
+          } catch (error) {
+            if (error.code === 'P2003') {
+              console.log('Error de clave foránea: el valor no existe en la tabla referenciada.');
+            }
+          }
         return new Producto(dbProduct.producto,dbProduct.precio,dbProduct.stock,dbProduct.imagen,dbProduct.cuid,dbProduct.puid);
 
     }
 
+    
     async modify(producto:Producto): Promise<boolean> {
         const data = {
             producto      : producto.name,
