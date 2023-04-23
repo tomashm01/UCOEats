@@ -25,7 +25,6 @@ export class PedidoMysqlController implements PedidoRepository{
 
     async create(pedido:Pedido): Promise<Pedido>{
         let dbDelivery=null;
-
         try {
             dbDelivery= await this.prisma.pedidos.create({
                 data: {
@@ -47,35 +46,35 @@ export class PedidoMysqlController implements PedidoRepository{
     }
 
     
-    async modify(producto:Producto): Promise<boolean> {
+    async modify(pedido:Pedido): Promise<boolean> {
         const data = {
-            producto      : producto.name,
-            precio   : producto.price,
-            stock       : producto.stock,
-            cuid    : producto.cuid,
-            imagen        : producto.imagen,
+            usid      : pedido.usid,
+            importe   : pedido.quantity,
+            fentrega       : pedido.dataDelivery,
+            fcreacion    : pedido.dataCreation,
+            esatdo        : pedido.state,
         };
     
-        const product= await this.prisma.productos.update({
-          where: {puid : producto.id},
+        const product= await this.prisma.pedidos.update({
+          where: {peuid : pedido.id},
           data,
         });
-        return !!product;
+        return !!pedido;
     }
     
     async remove(id:string): Promise<boolean> {
-        const prodcuto= await this.prisma.productos.delete({
+        const pedido= await this.prisma.pedidos.delete({
             where: {
-                puid: id
+                peuid: id
             }
         });
 
-        return !!prodcuto;
+        return !!pedido;
     }  
 
-    async findAll(): Promise<Producto[]> {
-        const productos= await this.prisma.productos.findMany();
-        return productos.map((producto)=> new Producto(producto.producto,producto.precio,producto.stock,producto.imagen,producto.cuid,producto.puid));
+    async findAll(): Promise<Pedido[]> {
+        const pedidos= await this.prisma.pedidos.findMany();
+        return pedidos.map((pedido)=> new Pedido(pedido.importe,pedido.fcreacion,pedido.fentrega,pedido.estado,pedido.usid,pedido.peuid));
     }
   
 }

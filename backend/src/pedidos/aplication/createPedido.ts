@@ -2,13 +2,12 @@ import { PedidoRepository, Pedido } from "../domain";
 
 export class CreatePedido {
   constructor(private repository: PedidoRepository) {}
-
   async execute(deliveryData: {
+    usid: string;
     quantity: number;
     dateCreation: Date;
     dateDelivery: Date;
     state: string;
-    usid: string;
   }): Promise<Pedido> {
     const pedido = new Pedido(
       deliveryData.quantity,
@@ -17,7 +16,6 @@ export class CreatePedido {
       deliveryData.state,
       deliveryData.usid
     );
-    
     return await this.repository.create(pedido);
   }
 }
