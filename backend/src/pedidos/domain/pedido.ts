@@ -18,11 +18,9 @@ export class Pedido{
         this.quantity=quantity;
         this.dataCreation=dateCreation;
         this.dataDelivery=dateDelivery
-        console.log(state);
-        if ((state === TypeDelivery.CREADO) || (state === TypeDelivery.PREPARACION) || (state === TypeDelivery.TERMINADO))
-            this.state = state as TypeDelivery
-        else throw new Error('Tipo debe ser creado/preparacion/terminado');
-
+        if ((state !== TypeDelivery.CREADO) && (state !== TypeDelivery.PREPARACION) && (state !== TypeDelivery.TERMINADO))
+            throw new Error('Tipo debe ser creado/preparacion/terminado');
+        else this.state = state as TypeDelivery;
     }
 
 }

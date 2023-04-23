@@ -34,8 +34,8 @@ router.get('/:id', async (req: Request, res: Response) => {
 });
 
 router.post('/', async (req: Request, res: Response) => {
-    const pedidoData = req.body;
-    const pedido = await createPedido.execute(pedidoData);
+    const deliveryData = req.body;
+    const pedido = await createPedido.execute(deliveryData);
     res.status(201).send(pedido);
 });
 

@@ -24,23 +24,18 @@ export class PedidoMysqlController implements PedidoRepository{
     }
 
     async create(pedido:Pedido): Promise<Pedido>{
-        let dbDelivery=null;
-        try {
-            dbDelivery= await this.prisma.pedidos.create({
-                data: {
-                    importe        : pedido.quantity,
-                    fcreacion    : pedido.dataCreation,
-                    fentrega   : pedido.dataDelivery,
-                    estado       : pedido.state,
-                    peuid       : pedido.id,
-                    usid        : pedido.usid,
-                }
-            });
-          } catch (error) {
-            if (error.code === 'P2003') {
-              console.log('Error de clave foránea: el valor no existe en la tabla referenciada.');
+        
+        const dbDelivery= await this.prisma.pedidos.create({
+            data: {
+                peuid    :  pedido.id,
+                usid        : pedido.usid,
+                importe        : pedido.quantity,
+                fcreacion    : pedido.dataCreation,
+                fentrega   : pedido.dataDelivery,
+                estado       : pedido.state,
             }
-          }
+        });
+        console.log(dbDelivery);
         return new Pedido(dbDelivery.importe,dbDelivery.fcreacion,dbDelivery.fentrega,dbDelivery.estado,dbDelivery.usid,dbDelivery.peuid);
 
     }
