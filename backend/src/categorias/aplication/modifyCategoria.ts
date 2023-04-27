@@ -6,10 +6,10 @@ export class ModifyCategoria{
     constructor(private repository: CategoriaRepository) { }
 
     async execute(data:{
-        cuid: string;
+        id: string;
         description:string;
     }):Promise<boolean> {
-        const categoria = new Categoria(data.description, data.cuid);
+        const categoria = new Categoria(data.description, data.id);
         return await this.repository.modify(categoria);
     }
 }

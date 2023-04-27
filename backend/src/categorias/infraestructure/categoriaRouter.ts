@@ -43,7 +43,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
     const id = req.params.id;
     const deleted = await deleteCategoriaById.execute(id);
     if (deleted) {
-        res.status(204).send();
+        res.status(201).send(deleted);
     } else {
         res.status(404).send("Categoria no encontrada");
     }
