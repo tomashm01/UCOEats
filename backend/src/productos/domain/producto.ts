@@ -9,13 +9,12 @@ export class Producto{
     name: string;
     price: number;
     stock: number;
-    cuid: uuidv4;
+    idCategory: uuidv4;
     imagen: string;
 
-    constructor(name: string, precio: number, stock: number, imagen: string,cuid?:string,id?:string){
+    constructor(name: string, precio: number, stock: number, imagen: string,idCategory:string,id?:string){
         this.id=(id && validate(id)) ? id : uuidv4();
-        this.cuid=(cuid && validate(cuid)) ? cuid : uuidv4();
-
+        this.idCategory=idCategory;
         this.name = name;
         this.imagen=imagen;
         this.price=precio;

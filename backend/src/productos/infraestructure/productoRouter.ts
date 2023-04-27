@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { ProductoMysqlController } from "./productoController";
+import { CategoriaMysqlController } from '../../categorias/infraestructure/categoriaContoller';
 import {
   CreateProducto,
   ModifyProducto,
@@ -8,11 +9,13 @@ import {
   GetProductos,
 } from "../aplication";
 
+
 const router = Router();
 
 const productoRepository = new ProductoMysqlController();
+const categoriaRepository = new CategoriaMysqlController();
 
-const createProducto = new CreateProducto(productoRepository);
+const createProducto = new CreateProducto(productoRepository,categoriaRepository);
 const modifyProducto = new ModifyProducto(productoRepository);
 const deleteProductoById = new DeleteProductoById(productoRepository);
 const getProducto = new GetProducto(productoRepository);

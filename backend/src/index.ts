@@ -14,10 +14,6 @@ async function bootstrap(){
     app.use(cors());
     app.use(express.json());
 
-    app.get("/", function (req, res) {
-        res.send("<h1>Hello !</h1>");
-    });
-
     app.use("/api/user", userRouter);
     app.use("/api/product", productRouter);
     app.use("/api/category", categoryRouter);

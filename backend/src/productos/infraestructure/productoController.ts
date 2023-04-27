@@ -34,7 +34,7 @@ export class ProductoMysqlController implements ProductoRepository{
                     precio   : producto.price,
                     stock       : producto.stock,
                     imagen    : producto.imagen,
-                    cuid       : producto.cuid,
+                    cuid       : producto.idCategory,
                 }
             });
           } catch (error) {
@@ -52,7 +52,7 @@ export class ProductoMysqlController implements ProductoRepository{
             producto      : producto.name,
             precio   : producto.price,
             stock       : producto.stock,
-            cuid    : producto.cuid,
+            cuid    : producto.idCategory,
             imagen        : producto.imagen,
         };
     
