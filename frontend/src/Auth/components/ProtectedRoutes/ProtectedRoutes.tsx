@@ -36,9 +36,9 @@ import { User } from '../../domain/user';
 
     useEffect(() => {
       console.log(currentUser);
-      if (currentUser.role === "admin") {
+      if (currentUser.type === "admin") {
         navigate("/AddProduct");
-      } else if (currentUser.role === "user") {
+      } else if (currentUser.type === "user") {
         navigate("/ProductList");
       } else {
         navigate("/login");
@@ -46,7 +46,7 @@ import { User } from '../../domain/user';
     }, [currentUser]);
 
     const routes = () => {
-      switch (currentUser.role) {
+      switch (currentUser.type) {
         case "admin":
           return (
             <Routes>

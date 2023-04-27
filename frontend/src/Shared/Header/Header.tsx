@@ -8,7 +8,7 @@ interface paths {
     value: string
 }
 
-function Header({role}:{role:string} ) {
+function Header({type}:{type:string} ) {
     const {basket, getTotalItems} = useBasket();
     const [totalItems, setTotalItems] = useState(0);
 
@@ -29,12 +29,11 @@ function Header({role}:{role:string} ) {
         {path:"ProductList",value:"UcoEats"},
         {path:"Basket",value:"Cesta"}
     ]
-    const currentUser = (role =="admin") ? adminPaths : userPaths
+    const currentUser = (type =="admin") ? adminPaths : userPaths
     return( 
         <header>
             <ul>
                 {currentUser.map((item:paths,index:number)=>(
-
                         <li  key={index}><Link to={`/${item.path}`}>{item.value}{item.path === "Basket" && ` (${totalItems})`}</Link></li>
                     ))
                 }

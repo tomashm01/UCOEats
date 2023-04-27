@@ -10,29 +10,29 @@ import { User } from "./Auth/domain/user";
 
 export default function App() {
   const [token, setToken] = useState({
-    id: "1",
-    username: "test_username",
-    name: "test_name",
-    email: "test_eemail",
-    password: "test_password",
-    date: "2021-01-01",
-    role: "none",
+      "uuid": "df944b02-d9f1-44d4-9cf8-03f10349245d",
+      "name": "Tomas",
+      "surname": "Hidalgo",
+      "email": "usaaqwquwwao@gmail.com",
+      "password": "contraseña",
+      "type": "admin",
+      "phone": 123456789
   });
 
   function editToken(newToken: User) {
-    const prevRol = token.role;
-    setToken({...newToken, role: prevRol});
+    const prevRol = token.type;
+    setToken({...newToken});
   }
 console.log(token)
   return (
     <>
       <BasketProvider>
-        {token.role !== "none" && <Header role={token.role} />}
-        <button onClick={() => setToken({ ...token, role: "user" })}>user</button>
-        <button onClick={() => setToken({ ...token, role: "admin" })}>admin</button>
-        <button onClick={() => setToken({ ...token, role: "none" })}>none</button>
+        {token.type !== "none" && <Header type={token.type} />}
+        <button onClick={() => setToken({ ...token, type: "user" })}>user</button>
+        <button onClick={() => setToken({ ...token, type: "admin" })}>admin</button>
+        <button onClick={() => setToken({ ...token, type: "none" })}>none</button>
         <ProtectedRoutes editToken={editToken} currentUser={token} />
-        {token.role !== "none" && <Footer/>} 
+        {token.type !== "none" && <Footer/>} 
       </BasketProvider>
     </>
   );
