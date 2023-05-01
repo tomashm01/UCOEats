@@ -7,68 +7,69 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model PP {
-  peuid     String    @db.VarChar(64)
-  puid      String    @db.VarChar(64)
-  cantidad  Int
-  precio    Int
-  pedidos   pedidos   @relation(fields: [peuid], references: [peuid], onDelete: NoAction, onUpdate: NoAction, map: "PP_ibfk_1")
-  productos productos @relation(fields: [puid], references: [puid], onDelete: NoAction, onUpdate: NoAction, map: "PP_ibfk_2")
-
-  @@id([peuid, puid])
-  @@index([puid], map: "puid")
-}
-
 model categorias {
-  cuid      String      @id @db.VarChar(64)
-  categoria String      @db.VarChar(64)
-  productos productos[]
+  id          String      @id @db.VarChar(64)
+  description String      @db.VarChar(64)
+  productos   productos[]
 }
 
 model pedidos {
-  peuid     String         @id @db.VarChar(64)
-  usid      String         @db.VarChar(64)
-  importe   Int
-  fcreacion DateTime       @db.DateTime(0)
-  fentrega  DateTime       @db.DateTime(0)
-  estado    pedidos_estado
-  PP        PP[]
-  usuarios  usuarios       @relation(fields: [usid], references: [uuid], onDelete: NoAction, onUpdate: NoAction, map: "pedidos_ibfk_1")
+  id              String            @id @db.VarChar(64)
+  userID          String            @db.VarChar(64)
+  quantity        Int
+  dateCreation    DateTime          @db.DateTime(0)
+  dateDelivery    DateTime          @db.DateTime(0)
+  state           pedidos_state
+  usuarios        usuarios          @relation(fields: [userID], references: [id], onDelete: Cascade, map: "pedidos_ibfk_1")
+  pedidosproducto pedidosproducto[]
 
-  @@index([usid], map: "usid")
+  @@index([userID], map: "userID")
+}
+
+model pedidosproducto {
+  id         String    @id @db.VarChar(64)
+  deliveryID String    @db.VarChar(64)
+  productID  String    @db.VarChar(64)
+  quantity   Int
+  price      Int
+  pedidos    pedidos   @relation(fields: [deliveryID], references: [id], onDelete: Cascade, map: "PP_ibfk_1")
+  productos  productos @relation(fields: [productID], references: [id], onDelete: Cascade, map: "PP_ibfk_2")
+
+  @@index([deliveryID], map: "deliveryID")
+  @@index([productID], map: "productID")
 }
 
 model productos {
-  puid       String     @id @db.VarChar(64)
-  producto   String     @db.VarChar(64)
-  precio     Int
-  stock      Int
-  cuid       String     @db.VarChar(64)
-  imagen     String     @db.VarChar(64)
-  PP         PP[]
-  categorias categorias @relation(fields: [cuid], references: [cuid], onDelete: NoAction, onUpdate: NoAction, map: "productos_ibfk_1")
+  id              String            @id @db.VarChar(64)
+  name            String            @db.VarChar(64)
+  price           Int
+  stock           Int
+  categoryID      String?           @db.VarChar(64)
+  imageURL        String            @db.VarChar(64)
+  pedidosproducto pedidosproducto[]
+  categorias      categorias?       @relation(fields: [categoryID], references: [id], map: "productos_ibfk_1")
 
-  @@index([cuid], map: "cuid")
+  @@index([categoryID], map: "categoryID")
 }
 
 model usuarios {
-  uuid      String        @id @db.VarChar(64)
-  nombre    String        @db.VarChar(64)
-  apellidos String        @db.VarChar(64)
-  email     String        @unique(map: "email") @db.VarChar(64)
-  password  String        @db.VarChar(64)
-  telefono  Int
-  tipo      usuarios_tipo
-  pedidos   pedidos[]
+  id       String        @id @db.VarChar(64)
+  name     String        @db.VarChar(64)
+  surname  String        @db.VarChar(64)
+  email    String        @unique(map: "email") @db.VarChar(64)
+  password String        @db.VarChar(64)
+  phone    Int
+  type     usuarios_type
+  pedidos  pedidos[]
 }
 
-enum pedidos_estado {
+enum pedidos_state {
   creado
   preparacion
   terminado
 }
 
-enum usuarios_tipo {
+enum usuarios_type {
   admin
   user
 }

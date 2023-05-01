@@ -12,44 +12,34 @@ export class UsuarioMysqlController implements UsuarioRepository{
     async findById(id:string): Promise<Usuario> {
         const dbUser = await this.prisma.usuarios.findUnique({
             where: {
-                uuid: id
+                id: id
             }
         });
         if(!dbUser){
             return null;
         }
-        return new Usuario(dbUser.nombre,dbUser.apellidos,dbUser.email,dbUser.password,dbUser.tipo,dbUser.telefono,dbUser.uuid);
+
+        return new Usuario(dbUser.name,dbUser.surname,dbUser.email,dbUser.password,dbUser.type,dbUser.phone,dbUser.id);
     }
 
     async create(usuario:Usuario): Promise<Usuario>{
         const dbUser= await this.prisma.usuarios.create({
             data: {
-                uuid        : usuario.id,
-                nombre      : usuario.name,
-                apellidos   : usuario.surname,
-                email       : usuario.email.getValue(),
-                password    : usuario.password,
-                tipo        : usuario.type,
-                telefono    : usuario.phone.getValue()
+                ...usuario.toDTO()
             }
         });
 
-        return new Usuario(dbUser.nombre,dbUser.apellidos,dbUser.email,dbUser.password,dbUser.tipo,dbUser.telefono,dbUser.uuid);
+        return new Usuario(dbUser.name,dbUser.surname,dbUser.email,dbUser.password,dbUser.type,dbUser.phone,dbUser.id);
 
     }
 
     async modify(usuario: Usuario): Promise<boolean> {
         const data = {
-            nombre      : usuario.name,
-            apellidos   : usuario.surname,
-            email       : usuario.email.getValue(),
-            password    : usuario.password,
-            tipo        : usuario.type,
-            telefono    : usuario.phone.getValue()
+            ...usuario.toDTO()
         };
     
         const user= await this.prisma.usuarios.update({
-          where: {uuid : usuario.id},
+          where: {id : usuario.id},
           data,
         });
         return !!user;
@@ -58,7 +48,7 @@ export class UsuarioMysqlController implements UsuarioRepository{
     async remove(id:string): Promise<boolean> {
         const usuario= await this.prisma.usuarios.delete({
             where: {
-                uuid: id
+                id: id
             }
         });
 
@@ -67,7 +57,7 @@ export class UsuarioMysqlController implements UsuarioRepository{
 
     async findAll(): Promise<Usuario[]> {
         const usuarios= await this.prisma.usuarios.findMany();
-        return usuarios.map((usuario)=> new Usuario(usuario.nombre,usuario.apellidos,usuario.email,usuario.password,usuario.tipo,usuario.telefono,usuario.uuid));
+        return usuarios.map((usuario)=> new Usuario(usuario.name,usuario.surname,usuario.email,usuario.password,usuario.type,usuario.phone,usuario.id));
     }
   
 }

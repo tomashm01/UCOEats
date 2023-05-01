@@ -12,44 +12,35 @@ export class PedidoMysqlController implements PedidoRepository{
     async findById(id:string): Promise<Pedido> {
         const dbDelivery = await this.prisma.pedidos.findUnique({
             where: {
-                peuid: id
+                id: id
             }
         });
         if(!dbDelivery){
             return null;
         }
-        return new Pedido(dbDelivery.importe,dbDelivery.fcreacion,dbDelivery.fentrega,dbDelivery.estado,dbDelivery.usid,dbDelivery.peuid);
+        return new Pedido(dbDelivery.quantity,dbDelivery.dateCreation,dbDelivery.dateDelivery,dbDelivery.state,dbDelivery.userID,dbDelivery.id);
     }
 
     async create(pedido:Pedido): Promise<Pedido>{
 
         const dbDelivery=await this.prisma.pedidos.create({
             data: {
-                peuid    :  pedido.id,
-                usid        : pedido.usid,
-                importe        : pedido.quantity.getValue(),
-                fcreacion    : new Date(pedido.dataCreation),
-                fentrega   :new Date(pedido.dataDelivery),
-                estado       : pedido.state,
+                ...pedido.toDTO()
             }
         });
 
-        return new Pedido(dbDelivery.importe,dbDelivery.fcreacion,dbDelivery.fentrega,dbDelivery.estado,dbDelivery.usid,dbDelivery.peuid);
+        return new Pedido(dbDelivery.quantity,dbDelivery.dateCreation,dbDelivery.dateDelivery,dbDelivery.state,dbDelivery.userID,dbDelivery.id);
 
     }
 
     
     async modify(pedido:Pedido): Promise<boolean> {
         const data = {
-            usid      : pedido.usid,
-            importe   : pedido.quantity.getValue(),
-            fentrega       : new Date(pedido.dataDelivery),
-            fcreacion    : new Date(pedido.dataCreation),
-            estado        : pedido.state,
+            ...pedido.toDTO()
         };
     
         const product= await this.prisma.pedidos.update({
-          where: {peuid : pedido.id},
+          where: {id : pedido.id},
           data,
         });
         return !!pedido;
@@ -58,7 +49,7 @@ export class PedidoMysqlController implements PedidoRepository{
     async remove(id:string): Promise<boolean> {
         const pedido= await this.prisma.pedidos.delete({
             where: {
-                peuid: id
+                id: id
             }
         });
 
@@ -67,7 +58,7 @@ export class PedidoMysqlController implements PedidoRepository{
 
     async findAll(): Promise<Pedido[]> {
         const pedidos= await this.prisma.pedidos.findMany();
-        return pedidos.map((pedido)=> new Pedido(pedido.importe,pedido.fcreacion,pedido.fentrega,pedido.estado,pedido.usid,pedido.peuid));
+        return pedidos.map((pedido)=>  new Pedido(pedido.quantity,pedido.dateCreation,pedido.dateDelivery,pedido.state,pedido.userID,pedido.id));
     }
   
 }

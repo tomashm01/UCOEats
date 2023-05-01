@@ -12,37 +12,35 @@ export class CategoriaMysqlController implements CategoriaRepository{
     async findById(id:string): Promise<Categoria> {
         const dbCategory = await this.prisma.categorias.findUnique({
             where: {
-                cuid: id
+                id: id
             }
         });
         if(!dbCategory){
             return null;
         }
-        return new Categoria(dbCategory.categoria,dbCategory.cuid);
+        return new Categoria(dbCategory.description,dbCategory.id);
     }
 
     async create(categoria:Categoria): Promise<Categoria>{
     
         const dbCategory= await this.prisma.categorias.create({
             data: {
-                cuid        : categoria.id,
-                categoria    : categoria.description,
+                ...categoria.toDTO()
             }
         });
          
-        return new Categoria(dbCategory.categoria,dbCategory.cuid);
+        return new Categoria(dbCategory.description,dbCategory.id);
 
     }
 
     
     async modify(categoria:Categoria): Promise<boolean> {
         const data = {
-            cuid      : categoria.id,
-            categoria : categoria.description,
+            ...categoria.toDTO()
         };
     
         const category= await this.prisma.categorias.update({
-          where: {cuid : categoria.id},
+          where: {id : categoria.id},
           data,
         });
         return !!category;
@@ -51,13 +49,13 @@ export class CategoriaMysqlController implements CategoriaRepository{
     async remove(id:string): Promise<boolean> {
         await this.prisma.productos.deleteMany({
             where: {
-                cuid: id
+                id: id
             }
         });
         
         const cateogria= await this.prisma.categorias.delete({
             where: {
-                cuid: id
+                id: id
             }
         });
 
@@ -68,7 +66,7 @@ export class CategoriaMysqlController implements CategoriaRepository{
 
     async findAll(): Promise<Categoria[]> {
         const categorias= await this.prisma.categorias.findMany();
-        return categorias.map((categoria)=> new Categoria(categoria.categoria,categoria.cuid));
+        return categorias.map((categoria)=> new Categoria(categoria.description,categoria.id));
     }
   
 }

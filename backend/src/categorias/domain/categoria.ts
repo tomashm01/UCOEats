@@ -10,4 +10,11 @@ export class Categoria{
         this.description=description;
     }
 
+    toDTO(){
+        return {
+            id: this.id,
+            description: this.description
+        }
+    }
+
 }

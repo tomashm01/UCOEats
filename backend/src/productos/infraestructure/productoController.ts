@@ -12,13 +12,13 @@ export class ProductoMysqlController implements ProductoRepository{
     async findById(id:string): Promise<Producto> {
         const dbProduct = await this.prisma.productos.findUnique({
             where: {
-                puid: id
+                id: id
             }
         });
         if(!dbProduct){
             return null;
         }
-        return new Producto(dbProduct.producto,dbProduct.precio,dbProduct.stock,dbProduct.imagen,dbProduct.cuid,dbProduct.puid);
+        return new Producto(dbProduct.name,dbProduct.price,dbProduct.stock,dbProduct.imageURL,dbProduct.categoryID,dbProduct.id );
     }
 
     async create(producto:Producto): Promise<Producto>{
@@ -27,12 +27,7 @@ export class ProductoMysqlController implements ProductoRepository{
         try {
             dbProduct= await this.prisma.productos.create({
                 data: {
-                    puid        : producto.id,
-                    producto    : producto.name,
-                    precio   : producto.price.getValue(),
-                    stock       : producto.stock.getValue(),
-                    imagen    : producto.imagen,
-                    cuid       : producto.idCategory,
+                    ...producto.toDTO()
                 }
             });
           } catch (error) {
@@ -40,22 +35,18 @@ export class ProductoMysqlController implements ProductoRepository{
               console.log('Error de clave foránea: el valor no existe en la tabla referenciada.');
             }
           }
-        return new Producto(dbProduct.producto,dbProduct.precio,dbProduct.stock,dbProduct.imagen,dbProduct.cuid,dbProduct.puid);
+        return new Producto(dbProduct.name,dbProduct.price,dbProduct.stock,dbProduct.imageURL,dbProduct.categoryID,dbProduct.id);
 
     }
 
     
     async modify(producto:Producto): Promise<boolean> {
         const data = {
-            producto      : producto.name,
-            precio   : producto.price.getValue(),
-            stock       : producto.stock.getValue(),
-            cuid    : producto.idCategory,
-            imagen        : producto.imagen,
+            ...producto.toDTO()
         };
     
         const product= await this.prisma.productos.update({
-          where: {puid : producto.id},
+          where: {id : producto.id},
           data,
         });
         return !!product;
@@ -64,7 +55,7 @@ export class ProductoMysqlController implements ProductoRepository{
     async remove(id:string): Promise<boolean> {
         const prodcuto= await this.prisma.productos.delete({
             where: {
-                puid: id
+                id: id
             }
         });
 
@@ -73,7 +64,7 @@ export class ProductoMysqlController implements ProductoRepository{
 
     async findAll(): Promise<Producto[]> {
         const productos= await this.prisma.productos.findMany();
-        return productos.map((producto)=> new Producto(producto.producto,producto.precio,producto.stock,producto.imagen,producto.cuid,producto.puid));
+        return productos.map((producto)=>  new Producto(producto.name,producto.price,producto.stock,producto.imageURL,producto.categoryID,producto.id));
     }
   
 }
