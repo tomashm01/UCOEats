@@ -25,8 +25,8 @@ export class Producto{
             name: this.name,
             price: this.price.getValue(),
             stock: this.stock.getValue(),
-            imagen: this.imagen,
-            idCategory: this.idCategory
+            imageURL: this.imagen,
+            categoryID: this.idCategory
         }
     }
 

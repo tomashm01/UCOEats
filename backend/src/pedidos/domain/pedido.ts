@@ -26,11 +26,11 @@ export class Pedido{
     toDTO(){
         return {
             id: this.id,
-            usid: this.usid,
+            userID: this.usid,
             quantity: this.quantity.getValue(),
-            dataCreation: this.dataCreation,
-            dataDelivery: this.dataDelivery,
-            state: this.state
+            dateCreation: this.dataCreation,
+            dateDelivery: this.dataDelivery,
+            state: this.state,
         }
     }
 
