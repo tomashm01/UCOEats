@@ -1,4 +1,5 @@
 import { v4 as uuidv4, validate } from 'uuid';
+import { NotNegative } from './NotNegative';
 
 //import { RolUser } from './RolUser';
 
@@ -7,8 +8,8 @@ export class Producto{
 
     id: uuidv4;
     name: string;
-    price: number;
-    stock: number;
+    price: NotNegative;
+    stock: NotNegative;
     idCategory: uuidv4;
     imagen: string;
 
@@ -17,8 +18,8 @@ export class Producto{
         this.idCategory=idCategory;
         this.name = name;
         this.imagen=imagen;
-        this.price=precio;
-        this.stock=stock;
+        this.price=new NotNegative(precio);
+        this.stock=new NotNegative(stock);
     }
 
 }

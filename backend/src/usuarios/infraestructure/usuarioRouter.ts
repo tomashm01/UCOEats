@@ -27,25 +27,50 @@ router.get('/:id', async (req: Request, res: Response) => {
     const id = req.params.id;
     const usuario = await getUsuario.execute(id);
     if (usuario) {
-        res.status(200).send(usuario);
+        res.status(200).send({
+            usuario: usuario,
+            message: "Usuario encontrado",
+            ok: true
+        });
     } else {
-        res.status(404).send("Usuario no encontrado");
+        res.status(404).send({
+            message: "Usuario no encontrado",
+            ok: false
+        });
     }
 });
 
 router.post('/', async (req: Request, res: Response) => {
     const userData = req.body;
     const usuario = await createUsuario.execute(userData);
-    res.status(201).send(usuario);
+    if (usuario) {
+        res.status(200).send({
+            usuario: usuario,
+            message: "Usuario insertado",
+            ok: true
+        });
+    } else {
+        res.status(404).send({
+            message: "Usuario no se ha insertado correctamente",
+            ok: false
+        });
+    }
 });
 
 router.delete('/:id', async (req: Request, res: Response) => {
     const id = req.params.id;
     const deleted = await deleteUsuarioById.execute(id);
     if (deleted) {
-        res.status(204).send();
+        res.status(200).send({
+            usuario: deleted,
+            message: "Usuario eliminado",
+            ok: true
+        });
     } else {
-        res.status(404).send("Usuario no encontrado");
+        res.status(404).send({
+            message: "Usuario no encontrado",
+            ok: false
+        });
     }
 });
 
@@ -53,9 +78,16 @@ router.put('/', async (req: Request, res: Response) => {
     const userData = req.body;
     const isUpdated = await modifyUsuario.execute(userData);
     if (isUpdated) {
-        res.status(200).send(true);
+        res.status(200).send({
+            usuario: isUpdated,
+            message: "Usuario actualizado",
+            ok: true
+        });
     } else {
-        res.status(404).send("Usuario no encontrado");
+        res.status(404).send({
+            message: "Usuario no encontrado",
+            ok: false
+        });
     }
 });
 

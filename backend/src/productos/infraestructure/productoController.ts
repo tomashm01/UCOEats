@@ -31,8 +31,8 @@ export class ProductoMysqlController implements ProductoRepository{
                 data: {
                     puid        : producto.id,
                     producto    : producto.name,
-                    precio   : producto.price,
-                    stock       : producto.stock,
+                    precio   : producto.price.getValue(),
+                    stock       : producto.stock.getValue(),
                     imagen    : producto.imagen,
                     cuid       : producto.idCategory,
                 }
@@ -50,8 +50,8 @@ export class ProductoMysqlController implements ProductoRepository{
     async modify(producto:Producto): Promise<boolean> {
         const data = {
             producto      : producto.name,
-            precio   : producto.price,
-            stock       : producto.stock,
+            precio   : producto.price.getValue(),
+            stock       : producto.stock.getValue(),
             cuid    : producto.idCategory,
             imagen        : producto.imagen,
         };
