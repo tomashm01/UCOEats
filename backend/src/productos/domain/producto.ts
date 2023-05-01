@@ -7,14 +7,14 @@ export class Producto{
     name: string;
     price: NotNegative;
     stock: NotNegative;
-    idCategory: uuidv4;
-    imagen: string;
+    categoryID: uuidv4;
+    imageURL: string;
 
     constructor(name: string, precio: number, stock: number, imagen: string,idCategory:string,id?:string){
         this.id=(id && validate(id)) ? id : uuidv4();
-        this.idCategory=idCategory;
+        this.categoryID=idCategory;
         this.name = name;
-        this.imagen=imagen;
+        this.imageURL=imagen;
         this.price=new NotNegative(precio);
         this.stock=new NotNegative(stock);
     }
@@ -25,8 +25,8 @@ export class Producto{
             name: this.name,
             price: this.price.getValue(),
             stock: this.stock.getValue(),
-            imagen: this.imagen,
-            idCategory: this.idCategory
+            imagen: this.imageURL,
+            idCategory: this.categoryID
         }
     }
 

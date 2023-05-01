@@ -6,18 +6,18 @@ import { NotNegative } from '../../productos/domain/NotNegative';
 export class Pedido{
 
     id: uuidv4;
-    usid: uuidv4;
+    userID: uuidv4;
     quantity:NotNegative;
-    dataCreation:Date
-    dataDelivery:Date;
+    dateCreation:Date
+    dateDelivery:Date;
     state:TypeDelivery;
 
     constructor(quantity:number,dateCreation:Date,dateDelivery:Date,state:string,usid:string,id?:string){
         this.id=(id && validate(id)) ? id : uuidv4();
-        this.usid=usid;
+        this.userID=usid;
         this.quantity=new NotNegative(quantity);
-        this.dataCreation=dateCreation;
-        this.dataDelivery=dateDelivery
+        this.dateCreation=dateCreation;
+        this.dateDelivery=dateDelivery
         if ((state !== TypeDelivery.CREADO) && (state !== TypeDelivery.PREPARACION) && (state !== TypeDelivery.TERMINADO))
             throw new Error('Tipo debe ser creado/preparacion/terminado');
         else this.state = state as TypeDelivery;
@@ -26,10 +26,10 @@ export class Pedido{
     toDTO(){
         return {
             id: this.id,
-            usid: this.usid,
+            usid: this.userID,
             quantity: this.quantity.getValue(),
-            dataCreation: this.dataCreation,
-            dataDelivery: this.dataDelivery,
+            dataCreation: this.dateCreation,
+            dataDelivery: this.dateDelivery,
             state: this.state
         }
     }
