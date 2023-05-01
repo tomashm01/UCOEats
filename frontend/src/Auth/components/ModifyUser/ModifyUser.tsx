@@ -1,67 +1,71 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './ModifyUser.css';
 import { User } from '../../domain/user';
+import { updateUser } from '../../infraestructure/updateUser';
 
-async function Modify(credentials:{username:string,name:string, password:string,email:string,date:string}) {
-    return {credentials}
+async function Modify(data: User): Promise<User> {
+  return updateUser(data);
 }
 
-export default function ModifyUser({userToken, setToken }:{userToken:User,setToken:Function}) {
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [date, setDate] = useState("");
-  const [name, setName] = useState("");
+export default function ModifyUser({ userToken, setToken }: { userToken: User; setToken: Function }) {
+  const { uuid, name: initialName, surname: initialSurname, email: initialEmail, type, phone: initialPhone } = userToken;
 
-  const handleSubmit = async (e: any) => {
+  const [formData, setFormData] = useState({
+    name: initialName,
+    surname: initialSurname,
+    email: initialEmail,
+    password: '',
+    type,
+    phone: initialPhone,
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newToken = await Modify({
-      username,
-      name,
-      email,
-      password,
-      date
-    });
-    setToken({...userToken, ...newToken.credentials});
+    const response = await Modify({ ...formData, uuid, phone: formData.phone });
+    response ? setToken(formData) : alert('Error al modificar los datos');
   };
 
   return (
-    <div className="modify-box">
+    <div className="modify-container">
+      <div className="modify-box">
         <h2>ModificarDatos</h2>
         <form onSubmit={handleSubmit}>
-            <div className="user-box">
-                <input placeholder={userToken.username} type="text" onChange={e => setUserName(e.target.value)} />
-                <label>Alias</label>
+          <div className="user-box">
+            <input type="text" name="name" placeholder={initialName} onChange={handleChange}/>
+            <label>Name</label>
+          </div>
+          <div className="user-box">
+            <input type="text" name="surname" placeholder={initialSurname} onChange={handleChange} />
+            <label>Surname</label>
+          </div>
+          <div className="user-box">
+            <input type="text" name="email" placeholder={initialEmail} onChange={handleChange} />
+            <label>Email</label>
+          </div>
+          <div className="user-box">
+            <input type="password" name="password" onChange={handleChange}/>
+            <label>Password</label>
+          </div>
+          <div className="user-box">
+            <input type="number" name="phone" placeholder={initialPhone.toString()} onChange={handleChange} />
+            <label>Phone</label>
+          </div>
+          <div className="buttons">
+            <div className="submit">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <button className="sub" type="submit">Modificar Datos</button>
             </div>
-            <div className="user-box">
-                <input  type="text"  placeholder={userToken.name} id="name" name="date" onChange={e => setName(e.target.value)} />
-                <label>Nombre</label>
-            </div>
-            <div className="user-box">
-                <input type="text" placeholder={userToken.email}  name="email" id="email" onChange={e => setEmail(e.target.value)}/>
-                <label>Email</label>
-            </div>
-            <div className="user-box">
-                <input type="password" placeholder="password"  onChange={e => setPassword(e.target.value)} />
-                <label>Password</label>
-            </div>
-            <div className="user-box">
-                <input  type="date"  placeholder={userToken.date} id="date" name="date" onChange={e => setDate(e.target.value)} />
-                <label>Fecha de Nacimiento</label>
-            </div>
-
-            <div className ="buttons"> 
-                <div className="submit">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <button className="sub" type="submit">Modificar Datos</button>
-                </div>
-            </div>
+          </div>
         </form>
       </div>
-)
+    </div>
+  );
 }
-
-

@@ -2,7 +2,7 @@
 import './ProductList.css';
 import ProductCard from '../ProductCard/ProductCard';
 import { Product } from '../../domain/Product';
-import  getAllProducts  from '../../services/getAllProducts';
+import { getAllProducts } from '../../inrafestructura/getAllProduct';
 import { useEffect, useState } from 'react';
 import { useBasket } from '../../../Basket/providers/BasketContext';
 
@@ -14,7 +14,14 @@ export default function ProductList(){
     const {addProduct, removeProduct} = useBasket();
 
     useEffect(() => {
-            setProducts(getAllProducts());
+        //recoger de forma asincrona el getAllProducts())
+        const fetchProductos = async() => {
+           const data = await getAllProducts();
+            setProducts(data);
+        };
+        
+        fetchProductos();
+          
     }, []);
     return (
         <div className="product-list">

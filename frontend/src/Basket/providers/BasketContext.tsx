@@ -1,5 +1,4 @@
 import { createContext, useContext, useReducer} from "react";
-import { Basket } from "../domain/Basket";
 
 import basketReducer,{ initialState } from "./basketReducer";
 import { Product } from "../../Product/domain/Product";
