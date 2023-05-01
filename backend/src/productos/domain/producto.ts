@@ -1,9 +1,6 @@
 import { v4 as uuidv4, validate } from 'uuid';
 import { NotNegative } from './NotNegative';
 
-//import { RolUser } from './RolUser';
-
-
 export class Producto{
 
     id: uuidv4;
@@ -20,6 +17,17 @@ export class Producto{
         this.imagen=imagen;
         this.price=new NotNegative(precio);
         this.stock=new NotNegative(stock);
+    }
+
+    toDTO(){
+        return {
+            id: this.id,
+            name: this.name,
+            price: this.price.getValue(),
+            stock: this.stock.getValue(),
+            imagen: this.imagen,
+            idCategory: this.idCategory
+        }
     }
 
 }

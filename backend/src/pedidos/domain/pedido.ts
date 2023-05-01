@@ -3,7 +3,6 @@ import { v4 as uuidv4, validate } from 'uuid';
 import { TypeDelivery } from './TypeDelivery';
 import { NotNegative } from '../../productos/domain/NotNegative';
 
-
 export class Pedido{
 
     id: uuidv4;
@@ -22,6 +21,17 @@ export class Pedido{
         if ((state !== TypeDelivery.CREADO) && (state !== TypeDelivery.PREPARACION) && (state !== TypeDelivery.TERMINADO))
             throw new Error('Tipo debe ser creado/preparacion/terminado');
         else this.state = state as TypeDelivery;
+    }
+
+    toDTO(){
+        return {
+            id: this.id,
+            usid: this.usid,
+            quantity: this.quantity.getValue(),
+            dataCreation: this.dataCreation,
+            dataDelivery: this.dataDelivery,
+            state: this.state
+        }
     }
 
 }

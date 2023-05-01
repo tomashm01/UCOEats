@@ -20,7 +20,7 @@ const getUsuarios = new GetUsuarios(usuarioRepository);
 
 router.get('/', async (req: Request, res: Response) => {
     const usuarios = await getUsuarios.execute();
-    res.status(200).send(usuarios);
+    res.status(200).send(usuarios.map((usuario) => usuario.toDTO()));
 });
 
 router.get('/:id', async (req: Request, res: Response) => {
@@ -28,7 +28,7 @@ router.get('/:id', async (req: Request, res: Response) => {
     const usuario = await getUsuario.execute(id);
     if (usuario) {
         res.status(200).send({
-            usuario: usuario,
+            usuario: usuario.toDTO(),
             message: "Usuario encontrado",
             ok: true
         });
@@ -45,7 +45,7 @@ router.post('/', async (req: Request, res: Response) => {
     const usuario = await createUsuario.execute(userData);
     if (usuario) {
         res.status(200).send({
-            usuario: usuario,
+            usuario: usuario.toDTO(),
             message: "Usuario insertado",
             ok: true
         });
@@ -62,7 +62,6 @@ router.delete('/:id', async (req: Request, res: Response) => {
     const deleted = await deleteUsuarioById.execute(id);
     if (deleted) {
         res.status(200).send({
-            usuario: deleted,
             message: "Usuario eliminado",
             ok: true
         });
@@ -79,7 +78,6 @@ router.put('/', async (req: Request, res: Response) => {
     const isUpdated = await modifyUsuario.execute(userData);
     if (isUpdated) {
         res.status(200).send({
-            usuario: isUpdated,
             message: "Usuario actualizado",
             ok: true
         });

@@ -26,4 +26,15 @@ export class Usuario{
         this.email = new Email(email);
     }
 
+    toDTO(){
+        return {
+            id: this.id,
+            name: this.name,
+            surname: this.surname,
+            email: this.email.getValue(),
+            password: this.password,
+            type: this.type,
+            phone: this.phone.getValue()
+        }
+    }
 }

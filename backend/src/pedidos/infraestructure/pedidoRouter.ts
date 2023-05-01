@@ -22,7 +22,7 @@ const getPedidos = new GetPedidos(pedidoRepository);
 
 router.get('/', async (req: Request, res: Response) => {
     const pedidos = await getPedidos.execute();
-    res.status(200).send(pedidos);
+    res.status(200).send(pedidos.map((pedido) => pedido.toDTO()));
 });
 
 router.get('/:id', async (req: Request, res: Response) => {
@@ -30,7 +30,7 @@ router.get('/:id', async (req: Request, res: Response) => {
     const pedido = await getPedido.execute(id);
     if (pedido) {
         res.status(200).send({
-            pedido: pedido,
+            pedido: pedido.toDTO(),
             message: "Pedido encontrado",
             ok: true
         });
@@ -47,7 +47,7 @@ router.post('/', async (req: Request, res: Response) => {
     const pedido = await createPedido.execute(deliveryData);
     if (pedido) {
         res.status(200).send({
-            pedido: pedido,
+            pedido: pedido.toDTO(),
             message: "Pedido insertado",
             ok: true
         });
@@ -64,7 +64,6 @@ router.delete('/:id', async (req: Request, res: Response) => {
     const deleted = await deletePedidoById.execute(id);
     if (deleted) {
         res.status(200).send({
-            pedido: deleted,
             message: "Pedido eliminado",
             ok: true
         });
@@ -81,7 +80,6 @@ router.put('/', async (req: Request, res: Response) => {
     const isUpdated = await modifyPedido.execute(pedidoData);
     if (isUpdated) {
         res.status(200).send({
-            pedido: isUpdated,
             message: "Pedido actualizado",
             ok: true
         });

@@ -23,7 +23,7 @@ const getProductos = new GetProductos(productoRepository);
 
 router.get('/', async (req: Request, res: Response) => {
     const productos = await getProductos.execute();
-    res.status(200).send(productos);
+    res.status(200).send(productos.map((producto) => producto.toDTO()));
 });
 
 router.get('/:id', async (req: Request, res: Response) => {
@@ -31,7 +31,7 @@ router.get('/:id', async (req: Request, res: Response) => {
     const producto = await getProducto.execute(id);
     if (producto) {
         res.status(200).send({
-            producto: producto,
+            producto: producto.toDTO(),
             ok: true
         });
     } else {
@@ -47,7 +47,7 @@ router.post('/', async (req: Request, res: Response) => {
     const producto = await createProducto.execute(productData);
     if (producto) {
         res.status(200).send({
-            producto:producto,
+            producto:producto.toDTO(),
             message: "Producto subido",
             ok: true
         });
