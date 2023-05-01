@@ -4,34 +4,38 @@ import BasketProvider from "./Basket/providers/BasketContext";
 import Footer from "./Shared/Footer/Footer";
 import Header from "./Shared/Header/Header";
 import { User } from "./Auth/domain/user";
+import { getUser } from "./Auth/infraestructure/getUser";
 
 
 
 
 export default function App() {
-  const [token, setToken] = useState({
-      "uuid": "df944b02-d9f1-44d4-9cf8-03f10349245d",
-      "name": "Tomas",
-      "surname": "Hidalgo",
-      "email": "usaaqwquwwao@gmail.com",
-      "password": "contraseña",
-      "type": "admin",
-      "phone": 123456789
-  });
 
-  function editToken(newToken: User) {
-    const prevRol = token.type;
-    setToken({...newToken});
-  }
-console.log(token)
-  return (
+  const defaultUser:User = {uuid: "", name: "", email: "", type: "" , surname: "", password: "", phone: 0}
+  
+  const [token, setToken] = useState<User>(defaultUser);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const actualUser = await getUser('df944b02-d9f1-44d4-9cf8-03f10349245d');
+      if (actualUser !== null) {
+        setToken(actualUser);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+
+
+  return(
     <>
       <BasketProvider>
         {token.type !== "none" && <Header type={token.type} />}
         <button onClick={() => setToken({ ...token, type: "user" })}>user</button>
         <button onClick={() => setToken({ ...token, type: "admin" })}>admin</button>
         <button onClick={() => setToken({ ...token, type: "none" })}>none</button>
-        <ProtectedRoutes editToken={editToken} currentUser={token} />
+        <ProtectedRoutes editToken={setToken} currentUser={token} />
         {token.type !== "none" && <Footer/>} 
       </BasketProvider>
     </>

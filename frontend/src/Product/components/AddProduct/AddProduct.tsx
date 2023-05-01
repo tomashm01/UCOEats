@@ -1,25 +1,33 @@
 import React, { useState } from 'react';
 import './AddProduct.css';
-import { Link } from 'react-router-dom';
+import { Product } from '../../domain/Product';
+import { createProduct } from '../../inrafestructura/createProduct';
+import productData from '../../domain/ProductData';
+
+
+async function Create(data: productData):Promise<Product>{
+    return createProduct(data);
+}
 
 
 export default function AddProduct({ setToken }:any) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
-  const [category, setCategory] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [idCategory, setCategory] = useState("");
+  const [image, setImageUrl] = useState("");
 
 
   const handleSubmit = async (e:any) => {
     e.preventDefault();
-    const token = await AddProduct({
+    const data = {
         name,
-        price,
-        stock,
-        category,
-        imageUrl
-    });
+        price:parseInt(price),
+        stock:parseInt(stock),
+        idCategory,
+        image
+    }
+    const token = await Create(data);
     
   }
 

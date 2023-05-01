@@ -18,15 +18,14 @@ function Header({type}:{type:string} ) {
   
     const adminPaths:paths[]=[
         {path:"ModifyUser",value:"ModifyUser"},
-        {path:"AddProduct",value:"AddProduct"},
-        {path:"EditProduct",value:"EditProduct"},
-        {path:"RemoveProduct",value:"RemoveProduct"},
+        {path:"Product",value:"Product"},
+        {path:"Category",value:"Category"},
         {path:"",value:"UcoEats"},
     ]
     const userPaths:paths[]=[
         {path:"ModifyUser",value:"ModifyUser"},
         {path:"ProductList",value:"UcoEats"},
-        {path:"ProductList",value:"UcoEats"},
+        {path:"History",value:"History"},
         {path:"Basket",value:"Cesta"}
     ]
     const currentUser = (type =="admin") ? adminPaths : userPaths

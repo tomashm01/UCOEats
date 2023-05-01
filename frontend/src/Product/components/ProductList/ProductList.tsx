@@ -18,7 +18,6 @@ export default function ProductList(){
         const fetchProductos = async() => {
            const data = await getAllProducts();
             setProducts(data);
-            console.log(data);
         };
         
         fetchProductos();
