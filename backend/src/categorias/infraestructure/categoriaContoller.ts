@@ -2,8 +2,6 @@ import { CategoriaRepository ,Categoria } from "../domain";
 
 import { PrismaClient } from '@prisma/client'
 
-import { CreateCategoria,ModifyCategoria,DeleteCategoriaById, GetCategoria, GetCategorias } from "../aplication";
-
 export class CategoriaMysqlController implements CategoriaRepository{
     
     private prisma:PrismaClient;
