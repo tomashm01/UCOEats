@@ -7,12 +7,14 @@ import {
   GetPedido,
   GetPedidos,
 } from "../aplication";
+import { UsuarioMysqlController } from "../../usuarios/infraestructure/usuarioController";
 
 const router = Router();
 
 const pedidoRepository = new PedidoMysqlController();
+const userRepository = new UsuarioMysqlController();
 
-const createPedido = new CreatePedido(pedidoRepository);
+const createPedido = new CreatePedido(pedidoRepository, userRepository);
 const modifyPedido = new ModifyPedido(pedidoRepository);
 const deletePedidoById = new DeletePedidoById(pedidoRepository);
 const getPedido = new GetPedido(pedidoRepository);
@@ -27,25 +29,50 @@ router.get('/:id', async (req: Request, res: Response) => {
     const id = req.params.id;
     const pedido = await getPedido.execute(id);
     if (pedido) {
-        res.status(200).send(pedido);
+        res.status(200).send({
+            pedido: pedido,
+            message: "Pedido encontrado",
+            ok: true
+        });
     } else {
-        res.status(404).send("Pedido no encontrado");
+        res.status(404).send({
+            message: "Pedido no encontrado",
+            ok: false
+        });
     }
 });
 
 router.post('/', async (req: Request, res: Response) => {
     const deliveryData = req.body;
     const pedido = await createPedido.execute(deliveryData);
-    res.status(201).send(pedido);
+    if (pedido) {
+        res.status(200).send({
+            pedido: pedido,
+            message: "Pedido insertado",
+            ok: true
+        });
+    } else {
+        res.status(404).send({
+            message: "Pedido no insertado correctamente",
+            ok: false
+        });
+    }
 });
 
 router.delete('/:id', async (req: Request, res: Response) => {
     const id = req.params.id;
     const deleted = await deletePedidoById.execute(id);
     if (deleted) {
-        res.status(204).send();
+        res.status(200).send({
+            pedido: deleted,
+            message: "Pedido eliminado",
+            ok: true
+        });
     } else {
-        res.status(404).send("Pedido no encontrado");
+        res.status(404).send({
+            message: "Pedido no eliminado correctamente",
+            ok: false
+        });
     }
 });
 
@@ -53,9 +80,16 @@ router.put('/', async (req: Request, res: Response) => {
     const pedidoData = req.body;
     const isUpdated = await modifyPedido.execute(pedidoData);
     if (isUpdated) {
-        res.status(200).send(true);
+        res.status(200).send({
+            pedido: isUpdated,
+            message: "Pedido actualizado",
+            ok: true
+        });
     } else {
-        res.status(404).send("Pedido no encontrado");
+        res.status(404).send({
+            message: "Pedido no actualizado correctamente",
+            ok: false
+        });
     }
 });
 

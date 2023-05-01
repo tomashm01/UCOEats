@@ -2,9 +2,6 @@ import { UsuarioRepository ,Usuario } from "../domain";
 
 import { PrismaClient } from '@prisma/client'
 
-import { CreateUsuario,ModifyUsuario,DeleteUsuarioById, GetUsuario, GetUsuarios } from "../aplication";
-import { RolUser } from "../domain/RolUser";
-
 export class UsuarioMysqlController implements UsuarioRepository{
     
     private prisma:PrismaClient;

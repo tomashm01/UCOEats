@@ -2,8 +2,6 @@ import { ProductoRepository ,Producto } from "../domain";
 
 import { PrismaClient } from '@prisma/client'
 
-import { CreateProducto,ModifyProducto,DeleteProductoById, GetProducto, GetProductos } from "../aplication";
-
 export class ProductoMysqlController implements ProductoRepository{
     
     private prisma:PrismaClient;

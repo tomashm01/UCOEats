@@ -9,7 +9,7 @@ export class NotNegative {
     }
 
     private isValid(value: number): boolean {
-       return value<0 ? false : true;
+       return value>=0;
     }    
 
     public getValue(): number {

@@ -2,8 +2,6 @@ import { PedidoRepository ,Pedido } from "../domain";
 
 import { PrismaClient } from '@prisma/client'
 
-import { CreatePedido,ModifyPedido,DeletePedidoById, GetPedido, GetPedidos } from "../aplication";
-
 export class PedidoMysqlController implements PedidoRepository{
     
     private prisma:PrismaClient;
@@ -24,44 +22,29 @@ export class PedidoMysqlController implements PedidoRepository{
     }
 
     async create(pedido:Pedido): Promise<Pedido>{
-        const dateString = pedido.dataCreation;
-        const dateObject = new Date(dateString);
-        const dateObject2 = new Date(pedido.dataDelivery);
-        let dbDelivery=null;
-        try {
-            // Código que puede lanzar una excepción
-            dbDelivery= await this.prisma.pedidos.create({
-                data: {
-                    peuid    :  pedido.id,
-                    usid        : pedido.usid,
-                    importe        : pedido.quantity,
-                    fcreacion    : dateObject,
-                    fentrega   :dateObject2,
-                    estado       : pedido.state,
-                }
-            });
-          } catch (error) {
-            if (error.code === 'P2003') {
-              console.log('El id del usuario no existe.');
-            } else {
-              console.log(`Se ha producido un error: ${error.message}`);
+
+        const dbDelivery=await this.prisma.pedidos.create({
+            data: {
+                peuid    :  pedido.id,
+                usid        : pedido.usid,
+                importe        : pedido.quantity.getValue(),
+                fcreacion    : new Date(pedido.dataCreation),
+                fentrega   :new Date(pedido.dataDelivery),
+                estado       : pedido.state,
             }
-          }
-        
+        });
+
         return new Pedido(dbDelivery.importe,dbDelivery.fcreacion,dbDelivery.fentrega,dbDelivery.estado,dbDelivery.usid,dbDelivery.peuid);
 
     }
 
     
     async modify(pedido:Pedido): Promise<boolean> {
-        const dateString = pedido.dataCreation;
-        const dateObject = new Date(dateString);
-        const dateObject2 = new Date(pedido.dataDelivery);
         const data = {
             usid      : pedido.usid,
-            importe   : pedido.quantity,
-            fentrega       : dateObject,
-            fcreacion    : dateObject2,
+            importe   : pedido.quantity.getValue(),
+            fentrega       : new Date(pedido.dataDelivery),
+            fcreacion    : new Date(pedido.dataCreation),
             estado        : pedido.state,
         };
     
