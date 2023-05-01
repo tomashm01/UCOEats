@@ -30,25 +30,48 @@ router.get('/:id', async (req: Request, res: Response) => {
     const id = req.params.id;
     const producto = await getProducto.execute(id);
     if (producto) {
-        res.status(200).send(producto);
+        res.status(200).send({
+            producto: producto,
+            ok: true
+        });
     } else {
-        res.status(404).send("Producto no encontrado");
+        res.status(404).send({
+            message: "Producto no encontrado",
+            ok: false
+        });
     }
 });
 
 router.post('/', async (req: Request, res: Response) => {
     const productData = req.body;
     const producto = await createProducto.execute(productData);
-    res.status(201).send(producto);
+    if (producto) {
+        res.status(200).send({
+            producto:producto,
+            message: "Producto subido",
+            ok: true
+        });
+    } else {
+        res.status(404).send({
+            message: "Producto no subido correctamente",
+            ok: false
+        });
+    }
 });
 
 router.delete('/:id', async (req: Request, res: Response) => {
     const id = req.params.id;
     const deleted = await deleteProductoById.execute(id);
     if (deleted) {
-        res.status(204).send();
+        res.status(200).send({
+            message: "Producto eliminado",
+            ok: true
+        });
     } else {
-        res.status(404).send("Producto no encontrado");
+        res.status(404).send({
+            message: "Producto no encontrado",
+            ok: false
+        });
     }
 });
 
@@ -56,9 +79,15 @@ router.put('/', async (req: Request, res: Response) => {
     const productData = req.body;
     const isUpdated = await modifyProducto.execute(productData);
     if (isUpdated) {
-        res.status(200).send(true);
+        res.status(200).send({
+            message: "Producto actualizado",
+            ok: true
+        });
     } else {
-        res.status(404).send("Producto no encontrado");
+        res.status(404).send({
+            message: "Producto no encontrado",
+            ok: false
+        });
     }
 });
 
