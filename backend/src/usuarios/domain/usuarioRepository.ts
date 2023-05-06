@@ -6,4 +6,5 @@ export interface UsuarioRepository {
     remove(id:string): Promise<boolean>;
     findById(id: string): Promise<Usuario>;
     findAll(): Promise<Usuario[]>;
+    findByEmail(email: string): Promise<Usuario>;
 }
