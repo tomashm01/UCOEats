@@ -6,6 +6,7 @@ import {
   DeleteUsuarioById,
   GetUsuario,
   GetUsuarios,
+  loginUser
 } from "../aplication";
 
 const router = Router();
@@ -17,6 +18,7 @@ const modifyUsuario = new ModifyUsuario(usuarioRepository);
 const deleteUsuarioById = new DeleteUsuarioById(usuarioRepository);
 const getUsuario = new GetUsuario(usuarioRepository);
 const getUsuarios = new GetUsuarios(usuarioRepository);
+const loginUsuario = new loginUser(usuarioRepository);
 
 router.get('/', async (req: Request, res: Response) => {
     const usuarios = await getUsuarios.execute();
@@ -84,6 +86,40 @@ router.put('/', async (req: Request, res: Response) => {
     } else {
         res.status(404).send({
             message: "Usuario no encontrado",
+            ok: false
+        });
+    }
+});
+
+router.post('/login', async (req: Request, res: Response) => {
+    const userData = req.body;
+    const usuario = await loginUsuario.execute(userData);
+    if (usuario) {
+        res.status(200).send({
+            usuario: usuario.toDTO(),
+            message: "Usuario encontrado",
+            ok: true
+        });
+    } else {
+        res.status(404).send({
+            message: "Usuario no encontrado",
+            ok: false
+        });
+    }
+});
+
+router.post('/register', async (req: Request, res: Response) => {
+    const userData = req.body;
+    const usuario = await createUsuario.execute(userData);
+    if (usuario) {
+        res.status(200).send({
+            usuario: usuario.toDTO(),
+            message: "Usuario insertado",
+            ok: true
+        });
+    } else {
+        res.status(404).send({
+            message: "Usuario no se ha insertado correctamente",
             ok: false
         });
     }

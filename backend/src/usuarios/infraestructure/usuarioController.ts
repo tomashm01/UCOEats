@@ -59,5 +59,19 @@ export class UsuarioMysqlController implements UsuarioRepository{
         const usuarios= await this.prisma.usuarios.findMany();
         return usuarios.map((usuario)=> new Usuario(usuario.name,usuario.surname,usuario.email,usuario.password,usuario.type,usuario.phone,usuario.id));
     }
+
+    async findByEmail(email: string): Promise<Usuario> {
+        const dbUser = await this.prisma.usuarios.findUnique({
+            where: {
+                email: email
+            }
+        });
+        if(!dbUser){
+            return null;
+        }
+
+        return new Usuario(dbUser.name,dbUser.surname,dbUser.email,dbUser.password,dbUser.type,dbUser.phone,dbUser.id);
+    }
+
   
 }
