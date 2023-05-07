@@ -1,22 +1,29 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { Link } from 'react-router-dom';
+import { login } from '../../infraestructure/loginUser';
 
-async function loginUser(credentials:{username:string, password:string}) {
-    return {usernmae:credentials.username, password:credentials.password}
+async function loginUser(credentials:{email:string, password:string}) {
+  const response = await login(credentials)
+  if(response != null){
+    return response;
+  }
+  return null;
 }
 
 export default function Login({ setToken }:any) {
-  const [username, setUserName] = useState("");
+  const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (e:any) => {
     e.preventDefault();
     const token = await loginUser({
-      username,
+      email,
       password
     });
-    setToken(token);
+    if(token != null){
+      setToken(token);
+    }
   }
 
 
@@ -25,8 +32,8 @@ export default function Login({ setToken }:any) {
     <h2>Iniciar Sesión</h2>
     <form onSubmit={handleSubmit}>
           <div className="user-box">
-          <input type="text" onChange={e => setUserName(e.target.value)} />
-                <label>Username</label>
+          <input type="text" onChange={e => setemail(e.target.value)} />
+                <label>email</label>
           </div>
               <div className="user-box">
               <input type="password" onChange={e => setPassword(e.target.value)} />

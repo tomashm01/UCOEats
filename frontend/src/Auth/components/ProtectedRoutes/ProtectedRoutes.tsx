@@ -51,7 +51,7 @@ function CategoryTable() {
         {currentUser.type !== 'admin' && currentUser.type !== 'user' &&(
           <>
             <Route path="/login" element={<Login setToken={editToken} />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register" element={<Register setToken={editToken} />} />
           </>
         )}
 

@@ -8,7 +8,7 @@ interface paths {
     value: string
 }
 
-function Header({type}:{type:string} ) {
+function Header({type,closeSesion}:{type:string,closeSesion:Function} ) {
     const {basket, getTotalItems} = useBasket();
     const [totalItems, setTotalItems] = useState(0);
 
@@ -36,6 +36,7 @@ function Header({type}:{type:string} ) {
                         <li  key={index}><Link to={`/${item.path}`}>{item.value}{item.path === "Basket" && ` (${totalItems})`}</Link></li>
                     ))
                 }
+                <li><Link to="/" onClick={()=>closeSesion()}>Cerrar Sesión</Link></li>
             </ul>
     </header>
     )      
