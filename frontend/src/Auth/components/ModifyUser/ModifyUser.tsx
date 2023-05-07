@@ -8,7 +8,7 @@ async function Modify(data: User): Promise<User> {
 }
 
 export default function ModifyUser({ userToken, setToken }: { userToken: User; setToken: Function }) {
-  const { uuid, name: initialName, surname: initialSurname, email: initialEmail, type, phone: initialPhone } = userToken;
+  const { id, name: initialName, surname: initialSurname, email: initialEmail, type, phone: initialPhone } = userToken;
 
   const [formData, setFormData] = useState({
     name: initialName,
@@ -26,7 +26,7 @@ export default function ModifyUser({ userToken, setToken }: { userToken: User; s
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await Modify({ ...formData, uuid, phone: formData.phone });
+    const response = await Modify({ ...formData, id, phone: formData.phone });
     response ? setToken(formData) : alert('Error al modificar los datos');
   };
 

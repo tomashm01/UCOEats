@@ -11,7 +11,7 @@ import { getUser } from "./Auth/infraestructure/getUser";
 
 export default function App() {
 
-  const defaultUser:User = {uuid: "", name: "", email: "", type: "" , surname: "", password: "", phone: 0}
+  const defaultUser:User = {id: "", name: "", email: "", type: "none" , surname: "", password: "", phone: 0}
   
   const [token, setToken] = useState<User>(defaultUser);
 
@@ -28,13 +28,11 @@ export default function App() {
 
 
 
+
   return(
     <>
       <BasketProvider>
         {token.type !== "none" && <Header type={token.type} />}
-        <button onClick={() => setToken({ ...token, type: "user" })}>user</button>
-        <button onClick={() => setToken({ ...token, type: "admin" })}>admin</button>
-        <button onClick={() => setToken({ ...token, type: "none" })}>none</button>
         <ProtectedRoutes editToken={setToken} currentUser={token} />
         {token.type !== "none" && <Footer/>} 
       </BasketProvider>

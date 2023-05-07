@@ -41,7 +41,7 @@ function CategoryTable() {
       } else {
         navigate("/login");
       }
-    }, [currentUser]);
+    }, [currentUser.type]);
   
     return (
       
@@ -70,6 +70,7 @@ function CategoryTable() {
           <>
             <Route path="/ProductList" element={<ProductList />} />
             <Route path="/Basket" element={<BasketList />} />
+            <Route path="/History" element={<></>} />
           </>
         )}
       </Routes>
