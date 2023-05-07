@@ -57,8 +57,41 @@ export class PedidoMysqlController implements PedidoRepository{
     }  
 
     async findAll(): Promise<Pedido[]> {
-        const pedidos= await this.prisma.pedidos.findMany();
-        return pedidos.map((pedido)=>  new Pedido(pedido.quantity,pedido.dateCreation,pedido.dateDelivery,pedido.state,pedido.userID,pedido.id));
+        const pedidos = await this.prisma.pedidosProducto.findMany({
+            select: {
+              id: true,
+              quantity: true,
+              price: true,
+              productos: {
+                select: {
+                  id: true,
+                  name: true,
+                  imageURL: true,
+                  categorias:true
+                },
+              },
+              pedidos: {
+                select: {
+                  id: true,
+                  quantity: true,
+                  dateCreation: true,
+                  dateDelivery: true,
+                  state: true,
+                  usuarios: {
+                    select: {
+                      id: true
+                    },
+                  },
+                },
+              },
+            },
+          });
+
+        console.log(pedidos.forEach(function(pedido){
+            console.log(pedido);
+        }));
+        return null;
+        //return pedidos.map((pedido)=>  new Pedido(pedido.quantity,pedido.dateCreation,pedido.dateDelivery,pedido.state,pedido.userID,pedido.id));
     }
   
 }

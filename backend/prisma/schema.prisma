@@ -21,12 +21,12 @@ model pedidos {
   dateDelivery    DateTime          @db.DateTime(0)
   state           pedidos_state
   usuarios        usuarios          @relation(fields: [userID], references: [id], onDelete: Cascade, map: "pedidos_ibfk_1")
-  pedidosproducto pedidosproducto[]
+  pedidosProducto pedidosProducto[]
 
   @@index([userID], map: "userID")
 }
 
-model pedidosproducto {
+model pedidosProducto {
   id         String    @id @db.VarChar(64)
   deliveryID String    @db.VarChar(64)
   productID  String    @db.VarChar(64)
@@ -46,7 +46,7 @@ model productos {
   stock           Int
   categoryID      String?           @db.VarChar(64)
   imageURL        String            @db.VarChar(64)
-  pedidosproducto pedidosproducto[]
+  pedidosProducto pedidosProducto[]
   categorias      categorias?       @relation(fields: [categoryID], references: [id], map: "productos_ibfk_1")
 
   @@index([categoryID], map: "categoryID")
