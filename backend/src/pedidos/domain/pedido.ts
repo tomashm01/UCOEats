@@ -2,11 +2,14 @@ import { v4 as uuidv4, validate } from 'uuid';
 
 import { TypeDelivery } from './TypeDelivery';
 import { NotNegative } from '../../productos/domain/NotNegative';
+import { Producto } from '../../productos/domain';
 
 export class Pedido{
 
     id: uuidv4;
     usid: uuidv4;
+    product:Producto;
+    categorias
     quantity:NotNegative;
     dataCreation:Date
     dataDelivery:Date;
