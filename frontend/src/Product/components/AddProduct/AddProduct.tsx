@@ -28,7 +28,6 @@ export default function AddProduct() {
   }, []);
 
   const onSubmit = async (data: productData) => {
-    
      createProduct({...data, price: Number(data.price), stock: Number(data.stock)});
   };
 

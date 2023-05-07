@@ -7,6 +7,6 @@ export async function getCategory(id:string): Promise<Category | null >{
  if (response.status === 404) {
     return null;
  }
-
-  return response.json();
+ const {category} = await response.json();
+  return category;
 };

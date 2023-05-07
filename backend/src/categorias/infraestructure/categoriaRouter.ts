@@ -28,7 +28,7 @@ router.get('/:id', async (req: Request, res: Response) => {
     const categoria = await getCategoria.execute(id);
     if (categoria) {
         res.status(200).send({
-            usuario: categoria,
+            category: categoria,
             message: "Categoria actualizada",
             ok: true
         });
@@ -45,7 +45,7 @@ router.post('/', async (req: Request, res: Response) => {
     const categoria = await createCategoria.execute(categoryData);
     if (categoria) {
         res.status(200).send({
-            usuario: categoria,
+            category: categoria,
             message: "Categoria insertada",
             ok: true
         });
@@ -62,7 +62,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
     const deleted = await deleteCategoriaById.execute(id);
     if (deleted) {
         res.status(200).send({
-            usuario: deleted,
+            category: deleted,
             message: "Categoria eliminada",
             ok: true
         });
@@ -79,7 +79,7 @@ router.put('/', async (req: Request, res: Response) => {
     const isUpdated = await modifyCategoria.execute(categoryData);
     if (isUpdated) {
         res.status(200).send({
-            usuario: isUpdated,
+            category: isUpdated,
             message: "Categoria actualizada",
             ok: true
         });
