@@ -30,9 +30,6 @@ export function EditProduct(){
         const fetchProductos = async () => {
           const data = await getAllCategories();
           setCategories(data);
-          if (data.length > 0) {
-            setValue("categoryID", data[0].id);
-          }
           const response = await getProduct(id);
           if(response){
             setProductData(response);
@@ -41,8 +38,6 @@ export function EditProduct(){
             setValue("stock", response.stock);
             setValue("categoryID", response.categoryID);
             setValue("imageURL", response.imageURL);
-
-
           }
         };
         fetchProductos();
@@ -132,7 +127,7 @@ export function EditProduct(){
               </div>
               <div className="buttons">
                 <button className="submit" type="submit">
-                  Add
+                  Edit
                 </button>
               </div>
             </form>
