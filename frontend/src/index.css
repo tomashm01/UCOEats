@@ -1,3 +1,15 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  margin: 0 auto;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -58,4 +70,23 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+table {
+  width: 80%;
+  margin: 20px;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #dddddd;
+}
+
+th {
+  background-color: #7e7777;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #413f3f;
 }

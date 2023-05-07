@@ -44,12 +44,6 @@
   align-items: center;
 }
 
-
-
-* {
-  box-sizing: border-box;
-}
-
 .title h4 {
   font-family: lato;
   font-size: 1.6rem;
