@@ -1,58 +1,45 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './ModifyUser.css';
 import { User } from '../../domain/user';
 import { updateUser } from '../../infraestructure/updateUser';
+import { useForm } from 'react-hook-form';
 
-async function Modify(data: User): Promise<User> {
-  return updateUser(data);
+async function Modify(data: User): Promise<boolean> {
+  return  await updateUser(data);
 }
 
 export default function ModifyUser({ userToken, setToken }: { userToken: User; setToken: Function }) {
-  const { id, name: initialName, surname: initialSurname, email: initialEmail, type, phone: initialPhone } = userToken;
-
-  const [formData, setFormData] = useState({
-    name: initialName,
-    surname: initialSurname,
-    email: initialEmail,
-    password: '',
-    type,
-    phone: initialPhone,
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const response = await Modify({ ...formData, id, phone: formData.phone });
-    response ? setToken(formData) : alert('Error al modificar los datos');
+  const {register, handleSubmit, formState: { errors } } = useForm<User>({ defaultValues: {...userToken, password:""} });
+  const onSubmit = async (data: User) => {
+    const response = await Modify({...data, phone: Number(data.phone)});
+    if(response){
+      setToken(data);
+    }  
   };
 
   return (
     <div className="modify-container">
       <div className="modify-box">
         <h2>ModificarDatos</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="user-box">
-            <input type="text" name="name" placeholder={initialName} onChange={handleChange}/>
+            <input type="text" {...register("name", { required: true })} />
             <label>Name</label>
           </div>
           <div className="user-box">
-            <input type="text" name="surname" placeholder={initialSurname} onChange={handleChange} />
+            <input type="text" {...register("surname", { required: true })}  />
             <label>Surname</label>
           </div>
           <div className="user-box">
-            <input type="text" name="email" placeholder={initialEmail} onChange={handleChange} />
+            <input type="text" {...register("email", { required: true })} />
             <label>Email</label>
           </div>
           <div className="user-box">
-            <input type="password" name="password" onChange={handleChange}/>
+            <input type="password" {...register("password", { required: true })}/>
             <label>Password</label>
           </div>
           <div className="user-box">
-            <input type="number" name="phone" placeholder={initialPhone.toString()} onChange={handleChange} />
+            <input type="number" {...register("phone", { required: true })}/>
             <label>Phone</label>
           </div>
           <div className="buttons">
