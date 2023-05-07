@@ -1,2 +1,3 @@
-export * from './pedido';
+export * from './interfaces';
 export * from './pedidoRepository';
+export * from './Pedido';

@@ -3,3 +3,4 @@ export enum TypeDelivery{
     TERMINADO='terminado',
     PREPARACION='preparacion',
 }
+  
