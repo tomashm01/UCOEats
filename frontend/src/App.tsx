@@ -4,10 +4,6 @@ import BasketProvider from "./Basket/providers/BasketContext";
 import Footer from "./Shared/Footer/Footer";
 import Header from "./Shared/Header/Header";
 import { User } from "./Auth/domain/user";
-import { getUser } from "./Auth/infraestructure/getUser";
-
-
-
 
 export default function App() {
 
