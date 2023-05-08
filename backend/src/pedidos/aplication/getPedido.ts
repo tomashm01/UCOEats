@@ -1,5 +1,5 @@
 import { PedidoRepository } from '../domain/pedidoRepository';
-import { Pedido } from '../domain/interfaces';
+import {Pedido}  from '../domain/Pedido';
 
 export class GetPedido {
 
