@@ -1,64 +1,60 @@
 import React, { useState } from 'react';
 import './Register.css';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { User } from '../../domain/user';
+import { createUser } from '../../infraestructure/createUser';
+import { registerUser } from '../../domain/registerUser';
 
-async function RegisterUser(credentials:{username:string, password:string,email:string,date:string}) {
-    return {usernmae:credentials.username, password:credentials.password}
-}
+
+
 
 export default function Register({ setToken }:any) {
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [date, setDate] = useState("");
+    const {register, handleSubmit, formState: { errors } } = useForm<registerUser>();
 
-  const handleSubmit = async (e:any) => {
-    e.preventDefault();
-    const token = await RegisterUser({
-        username,
-        password,
-        email,
-        date
-    });
-    setToken(token);
-  }
-
-
-  return (
-    <div className="register-box">
-        <h2>Registro</h2>
-        <form onSubmit={handleSubmit}>
+    const onSubmit = async (dataform:registerUser) => {
+        const data = {...dataform, phone: Number(dataform.phone), type: "user"}
+        const token = await createUser(data);
+        setToken(token);
+    }
+    return (
+      <div className="modify-container">
+        <div className="modify-box">
+          <h2>Registro </h2>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="user-box">
-                <input type="text" onChange={e => setUserName(e.target.value)} />
-                <label>Nombre Completo</label>
+              <input type="text"  {...register("name", { required: true })}/>
+              <label>Name</label>
             </div>
             <div className="user-box">
-                <input type="text"  name="email" id="email" onChange={e => setEmail(e.target.value)}/>
-                <label>Email</label>
+              <input type="text"  {...register("surname", { required: true })} />
+              <label>Surname</label>
             </div>
             <div className="user-box">
-                <input type="password" onChange={e => setPassword(e.target.value)} />
-                <label>Password</label>
+              <input type="text"  {...register("email", { required: true })}  />
+              <label>Email</label>
             </div>
             <div className="user-box">
-                <input  type="date" placeholder="LocalDate" id="date" name="date" onChange={e => setDate(e.target.value)} />
-                <label>Fecha de Nacimiento</label>
+              <input type="password" {...register("password", { required: true })}/>
+              <label>Password</label>
             </div>
-            <div className ="buttons"> 
-                <div className="submit">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <button className="sub" type="submit">Registrarse</button>
-                </div>
-                <div className="alternative">
-                    <Link to="/login">Login</Link>
-                </div>
+            <div className="user-box">
+              <input type="number"  {...register("phone", { required: true })} />
+              <label>Phone</label>
             </div>
-        </form>
+            <div className="buttons">
+              <div className="submit">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <button className="sub" type="submit">Registrarse</button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
-)
+    );
 }
 
 

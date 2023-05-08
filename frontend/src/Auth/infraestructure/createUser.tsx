@@ -1,11 +1,13 @@
 import { baseUrl } from "../../config";
+import { registerUser } from "../domain/registerUser";
 import { User } from "../domain/user";
 
-export async function createUser(user:User): Promise<User>{
+export async function createUser(user:registerUser): Promise<User>{
   const response = await fetch(`${baseUrl}/api/user`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(user),    
 });
-    return  await response.json();
+    const {usuario} = await response.json();
+    return  usuario;
 }

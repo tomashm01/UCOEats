@@ -9,33 +9,17 @@ import AddProduct from '../../../Product/components/AddProduct/AddProduct';
 import { EditProduct, EditProductPage } from '../../../Product/components/EditProduct/EditProduct';
 import ModifyUser from '../ModifyUser/ModifyUser';
 import ProductManagement from '../../../Product/components/ProductManagement/ProductManagement';
-
-  function RemoveProduct(){
-    return(
-        <div>
-            <h1>RemoveProduct</h1>
-        </div>
-    )
-  }
-
-
-
-function CategoryTable() {
-    return (
-      <div>
-        <h1>CategoryTable</h1>
-      </div>
-    );
-  }
-
-
+import CategoryManagement from '../../../Category/components/CategoryManagement/CategoryManagement';
+import AddCategory from '../../../Category/components/AddCategory/AddCategory';
+import { EditCategory, EditCategoryPage } from '../../../Category/components/EditCategory/EditCategory';
+import DeliveryList from '../../../Delivery/components/DeliveryList/DeliveryList';
 
   export default function ProtectedRoutes({ currentUser, editToken }: ProtectedRouteProps) {
 
     const navigate = useNavigate();
     useEffect(() => {
       if (currentUser.type === "admin") {
-        navigate("/AddProduct");
+        navigate("/Product");
       } else if (currentUser.type === "user") {
         navigate("/ProductList");
       } else {
@@ -51,26 +35,30 @@ function CategoryTable() {
         {currentUser.type !== 'admin' && currentUser.type !== 'user' &&(
           <>
             <Route path="/login" element={<Login setToken={editToken} />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register" element={<Register setToken={editToken} />} />
           </>
         )}
 
         {currentUser.type === 'admin' && (
           <>
             <Route path="/Product" element={<ProductManagement />} />
-            <Route path="/Category" element={<CategoryTable />} />
+            <Route path="/Category" element={<CategoryManagement />} />
             <Route path="/AddProduct" element={<AddProduct />} />
-            <Route path="/RemoveProduct" element={<RemoveProduct />} />
             <Route path="/EditProduct" element={<EditProductPage />}>
               <Route path=":id" element={<EditProduct />} />
             </Route>
+            <Route path="/AddCategory" element={<AddCategory />} />
+            <Route path="/EditCategory" element={<EditCategoryPage />}>
+              <Route path=":id" element={<EditCategory />} />
+            </Route>
+            <Route path="/History" element={<DeliveryList userToken={currentUser}/>} />
           </>
         )}
         {currentUser.type === 'user' && (
           <>
             <Route path="/ProductList" element={<ProductList />} />
-            <Route path="/Basket" element={<BasketList />} />
-            <Route path="/History" element={<></>} />
+            <Route path="/Basket" element={<BasketList userToken={currentUser} />} />
+            <Route path="/History" element={<DeliveryList userToken={currentUser}/>} />
           </>
         )}
       </Routes>

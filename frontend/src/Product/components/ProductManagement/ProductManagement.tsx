@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 export default function ProductManagement() {
   const [products, setProducts] = useState<Product[]>([]);
   const navigate = useNavigate();
+  
   useEffect(() => {
     const fetchProductos = async () => {
       const data = await getAllProducts();
@@ -55,8 +56,8 @@ export default function ProductManagement() {
                 <td>{product.categoryID}</td>
                 <td>
                   <button onClick={() => handleEdit(product.id)}>Editar</button>
-                  </td>
-                  <td>
+                </td>
+                <td>
                   <button onClick={() => handleDelete(product.id)}>Borrar</button>
                 </td>
               </tr>
