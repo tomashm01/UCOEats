@@ -1,9 +1,11 @@
 import { Delivery } from "../domain/delivery";
 import { baseUrl } from "../../config";
 
+interface deliveryCreateResponse {
+    pedido: Delivery;
+}
 
-
-export async function createDelivery(deliveryData:Delivery): Promise<Delivery>{
+export async function createDelivery(deliveryData:deliveryCreateResponse): Promise<Delivery>{
     const response = await fetch(`${baseUrl}/api/delivery`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

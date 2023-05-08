@@ -7,43 +7,38 @@ import { User } from '../../../Auth/domain/user';
 import { Basket } from '../../domain/Basket';
 import { createDelivery } from '../../../Delivery/infraestructure/createDelivery';
 
+
+
+
 function basketToDelivery(items:any,user:User){
     let productos = items.map((item:any)=>{
         return {
-            quantity: { 
-                value: item.quantity
-            },
-            price: {
-                value: item.price
-            },
             id: item.id,
-            producto: {
+            quantity:  item.quantity,
+            price: item.price,
+            productos: {
                 id: item.id,
                 name: item.name
             }
         }
     })
-    //quantity es el numero total de items que hay en la lista, como cada item tiene su cantidad, se suman todas las cantidades
-
+    const quantity = productos.reduce((total:any, item:any) => total + item.quantity, 0)
     let delivery:Delivery = {
         usuarios: {
             id: user.id,
             name: user.name,
             surname: user.surname,
-            email: {
-                value: user.email
-            },
-            phone: {
-                value: user.phone
-            }
+            email: user.email,
+            phone: user.phone
         },
-        quantity: productos.reduce((total:any,producto:any)=>total+producto.quantity.value,0) ,
+        quantity: quantity ,
         dateCreation: new Date().toISOString(),
-        dateDelivery: new Date().toISOString(),
-        state: "Pedido realizado",
+        dateDelivery: new Date(new Date(new Date().toISOString()).getTime() + 15*60000).toISOString(),
+        state: "creado",
         productos: productos
     }
-    createDelivery(delivery)
+    const newDelivery = {pedido:{ ...delivery}}
+    createDelivery(newDelivery)
 }
 
 

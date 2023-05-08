@@ -50,14 +50,15 @@ import DeliveryList from '../../../Delivery/components/DeliveryList/DeliveryList
             <Route path="/AddCategory" element={<AddCategory />} />
             <Route path="/EditCategory" element={<EditCategoryPage />}>
               <Route path=":id" element={<EditCategory />} />
-              </Route>
+            </Route>
+            <Route path="/History" element={<DeliveryList userToken={currentUser}/>} />
           </>
         )}
         {currentUser.type === 'user' && (
           <>
             <Route path="/ProductList" element={<ProductList />} />
             <Route path="/Basket" element={<BasketList userToken={currentUser} />} />
-            <Route path="/History" element={<DeliveryList/>} />
+            <Route path="/History" element={<DeliveryList userToken={currentUser}/>} />
           </>
         )}
       </Routes>

@@ -17,8 +17,8 @@ export default function DeliveryItem({ delivery }: { delivery: Delivery }) {
               <td>{delivery.id}</td>
               <td>
                 <p>{delivery.usuarios.name} {delivery.usuarios.surname}</p>
-                <p>{delivery.usuarios.email.value}</p>
-                <p>{delivery.usuarios.phone.value}</p>
+                <p>{delivery.usuarios.email}</p>
+                <p>{delivery.usuarios.phone}</p>
               </td>
               <td>
                 <p>Cantidad: {delivery.quantity}</p>
@@ -36,9 +36,9 @@ export default function DeliveryItem({ delivery }: { delivery: Delivery }) {
                   <tbody>
                     {delivery.productos.map((producto) => (
                       <tr key={producto.id}>
-                        <td>{producto.producto.name}</td>
-                        <td>{producto.quantity.value}</td>
-                        <td>{producto.price.value}</td>
+                        <td>{producto.productos.name}</td>
+                        <td>{producto.quantity}</td>
+                        <td>{producto.price}</td>
                       </tr>
                     ))}
                   </tbody>
