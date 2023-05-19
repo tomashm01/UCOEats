@@ -16,7 +16,7 @@ export default function ModifyUser({ userToken, setToken }: { userToken: User; s
   return (
     <div className={`flex min-h-screen items-center justify-center bg-${colors.bgSecondary}`}>
       <div className={`w-full max-w-md rounded-lg`}>
-        <h1 className={`mb-6 text-center text-3xl font-bold text-${colors.textPrimary}`}>Modificar Datos</h1>
+        <h1 className={`mb-6 text-center text-3xl font-bold text-${colors.textPrimary}`}>Modify User</h1>
         <form className={`mb-4 rounded-3xl bg-${colors.bgPrimary} px-8 pb-8 pt-6 shadow-md`} onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label className={`block text-gray-700 text-sm font-bold mb-2`} htmlFor="name">Name:</label>
@@ -78,7 +78,7 @@ export default function ModifyUser({ userToken, setToken }: { userToken: User; s
               <p className="text-red-500 text-xs italic">8 digits</p>
             )}
           </div>
-          <button className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`} type="submit">Modificar Datos</button>
+          <button className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`} type="submit">Modify User</button>
         </form>
       </div>
     </div>
