@@ -23,8 +23,8 @@ export default function DeliveryList({userToken}:{userToken:User}) {
     }, []);
 
     return (
-        <div className="delivery-list">
-            <h2>Lista de Deliverys</h2>
+        <div className="delivery-list mx-auto p-4 max-w-7xl">
+        <h2 className="text-3xl font-bold text-center my-4">Lista de Deliverys</h2>
             {deliveries.map((delivery) => (
                <DeliveryItem key={delivery.id} delivery={delivery} />
             ))}
