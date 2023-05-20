@@ -16,7 +16,7 @@ const createBasket = (): Basket => ({
   
 
   const clearBasket = (basket: Basket): Basket => {
-    return { ...basket, items: [] };
+    return { ...basket, items: [], total: 0 };
   };
 
 function productToBasketProduct(product: Product): BasketProduct {

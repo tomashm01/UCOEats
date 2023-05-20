@@ -2,14 +2,6 @@
     margin: 20px;
 }
 
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #3c3c3c;
-}
-
 .box {
     margin: 20%;
     background-color: rgb(173, 168, 168);
