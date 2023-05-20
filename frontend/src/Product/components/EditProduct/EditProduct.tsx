@@ -7,14 +7,12 @@ import { getAllCategories } from "../../../Category/infreaestructure/getAllCateg
 import { useForm } from "react-hook-form";
 import { getProduct } from '../../inrafestructura/getProduct';
 import { updateProduct } from '../../inrafestructura/updateProduct';
+import colors from '../../../Shared/styles/colors';
 
 export function EditProductPage(){
     
     return(
-        <div>
-            <h1>Texto EditProduct</h1>
             <Outlet/>
-        </div>
     )
   }
 
@@ -53,56 +51,48 @@ export function EditProduct(){
       }
     
       return (
-        <div className="container">
-          <div className="box">
-            <h2>Edit Product {productTostring(productToEdit)} </h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="form-group">
-                <label htmlFor="name">Name</label>
+        <div className={`flex min-h-screen items-center justify-center bg-${colors.bgSecondary}`}>
+          <div className={`w-full max-w-md rounded-lg`}>
+            <h2 className={`mb-6 text-center text-3xl font-bold text-${colors.textPrimary}`}>Edit Product {productTostring(productToEdit)}</h2>
+            <form className={`mb-4 rounded-3xl bg-${colors.bgPrimary} px-8 pb-8 pt-6 shadow-md`} onSubmit={handleSubmit(onSubmit)}>
+              <div className="mb-4">
+                <label className={`block text-gray-700 text-sm font-bold mb-2`} htmlFor="name">Name</label>
                 <input
                   type="text"
                   id="name"
                   {...register("name", { required: true })}
+                  className={`focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight bg-${colors.bgPrimary} shadow focus:outline-none text-black`}
                 />
-                {errors.name && (
-                  <span className="error">This field is required</span>
-                )}
+                {errors.name && <p className="text-red-500 text-xs italic">This field is required</p>}
               </div>
-              <div className="form-group">
-                <label htmlFor="price">Price</label>
+              <div className="mb-4">
+                <label className={`block text-gray-700 text-sm font-bold mb-2`} htmlFor="price">Price</label>
                 <input
                   type="number"
                   id="price"
                   {...register("price", { required: true, min: 0 })}
+                  className={`focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight bg-${colors.bgPrimary} shadow focus:outline-none text-black`}
                 />
-                {errors.price && (
-                  <span className="error">
-                    {errors.price.type === "required" && "This field is required"}
-                    {errors.price.type === "min" &&
-                      "The price must be greater than or equal to 0"}
-                  </span>
-                )}
+                {errors.price && <p className="text-red-500 text-xs italic">This field is required</p>}
+                {errors.price && errors.price.type === "min" && <p className="text-red-500 text-xs italic">The price must be greater than or equal to 0</p>}
               </div>
-              <div className="form-group">
-                <label htmlFor="stock">Stock</label>
+              <div className="mb-4">
+                <label className={`block text-gray-700 text-sm font-bold mb-2`} htmlFor="stock">Stock</label>
                 <input
                   type="number"
                   id="stock"
                   {...register("stock", { required: true, min: 0 })}
+                  className={`focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight bg-${colors.bgPrimary} shadow focus:outline-none text-black`}
                 />
-                {errors.stock && (
-                  <span className="error">
-                    {errors.stock.type === "required" && "This field is required"}
-                    {errors.stock.type === "min" &&
-                      "The stock must be greater than or equal to 0"}
-                  </span>
-                )}
+                {errors.stock && <p className="text-red-500 text-xs italic">This field is required</p>}
+                {errors.stock && errors.stock.type === "min" && <p className="text-red-500 text-xs italic">The stock must be greater than or equal to 0</p>}
               </div>
-              <div className="form-group">
-                <label htmlFor="categoryID">Category</label>
+              <div className="mb-6">
+                <label className={`block text-gray-700 text-sm font-bold mb-2`} htmlFor="categoryID">Category</label>
                 <select
                   id="categoryID"
                   {...register("categoryID", { required: true })}
+                  className={`focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight bg-${colors.bgPrimary} shadow focus:outline-none text-black`}
                 >
                   {categories.map((category) => (
                     <option key={category.id} value={category.id}>
@@ -110,28 +100,22 @@ export function EditProduct(){
                     </option>
                   ))}
                 </select>
-                {errors.categoryID && (
-                  <span className="error">This field is required</span>
-                )}
+                {errors.categoryID && <p className="text-red-500 text-xs italic">This field is required</p>}
               </div>
-              <div className="form-group">
-                <label htmlFor="imageURL">Image URL</label>
-                <input 
+              <div className="mb-6">
+                <label className={`block text-gray-700 text-sm font-bold mb-2`} htmlFor="imageURL">Image URL</label>
+                <input
                   type="text"
                   id="imageURL"
                   {...register("imageURL", { required: true })}
+                  className={`focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight bg-${colors.bgPrimary} shadow focus:outline-none text-black`}
                 />
-                {errors.imageURL && (
-                  <span className="error">This field is required</span>
-                )}
+                {errors.imageURL && <p className="text-red-500 text-xs italic">This field is required</p>}
               </div>
-              <div className="buttons">
-                <button className="submit" type="submit">
-                  Edit
-                </button>
-              </div>
+              <button className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`} type="submit">Edit</button>
             </form>
           </div>
         </div>
       );
+      
     }

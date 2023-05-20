@@ -25,7 +25,6 @@ function Header({
     { path: "Product", value: "Product" },
     { path: "Category", value: "Category" },
     { path: "History", value: "History" },
-    { path: "", value: "UcoEats" },
   ];
   const userPaths: paths[] = [
     { path: "ProductList", value: "Products" },
