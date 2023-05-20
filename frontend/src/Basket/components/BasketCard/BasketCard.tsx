@@ -1,6 +1,3 @@
-import { useState } from "react";
-import "./BasketCard.css";
-
 export default function BasketCard(props: any) {
   const { info, onRemoveProduct } = props;
 
