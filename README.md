@@ -1,7 +1,7 @@
 Para desplegar el proyecto se necesitan las siguientes dependencias:
 - Npm
 - Nodejs
-- Un servicio de vpn
+- Desplegar un servicio como Xampp en local o una base de datos mysql en linea para importar el fichero de la base de datos.
 
 # Backend
 ## Instalación
@@ -26,12 +26,6 @@ Para ejecutar el proyecto de backend se debe ejecutar el siguiente comando:
 npm run dev
 ```
 
-## Despliegue
-Para desplegar el proyecto de backend se debe ejecutar el siguiente comando:
-```bash
-npm run start
-```
-
 # Frontend
 
 ## Instalación
@@ -46,11 +40,6 @@ Para ejecutar el proyecto de frontend se debe ejecutar el siguiente comando:
 npm run dev
 ```
 
-## Despliegue
-Para desplegar el proyecto de frontend se debe ejecutar el siguiente comando:
-```bash
-npm run build
-```
 
 
 
