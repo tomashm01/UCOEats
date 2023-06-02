@@ -11,7 +11,12 @@ export default function Register({ setToken }:any) {
     const onSubmit = async (dataform:registerUser) => {
         const data = {...dataform, phone: Number(dataform.phone), type: "user"}
         const token = await createUser(data);
-        setToken(token);
+        if(token != null){
+          setToken(token);
+        }
+        else{
+          alert("User already exists");
+        }
     }
     return (
           <div className={`flex min-h-screen items-center justify-center bg-${colors.bgSecondary}`}>
@@ -65,7 +70,7 @@ export default function Register({ setToken }:any) {
               <div className="mb-6">
                 <label className={`block text-gray-700 text-sm font-bold mb-2`} htmlFor="phone">Phone:</label>
                 <input 
-                  {...register("phone", { required: true, minLength: 8, maxLength: 8 })}
+                  {...register("phone", { required: true, minLength: 9, maxLength: 9 })}
                   className={`focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight bg-${colors.bgPrimary} shadow focus:outline-none text-black`}
                   id="phone" 
                   type="tel" 
@@ -75,7 +80,7 @@ export default function Register({ setToken }:any) {
                   <p className="text-red-500 text-xs italic">Required</p>
                 )}
                 {errors.phone && (errors.phone.type === "minLength" || errors.phone.type === "maxLength") && (
-                  <p className="text-red-500 text-xs italic">8 digits</p>
+                  <p className="text-red-500 text-xs italic">9 digits</p>
                 )}
 
               </div>
