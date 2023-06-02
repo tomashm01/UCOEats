@@ -1,11 +1,17 @@
 import { baseUrl } from "../../config";
 import Category from "../domain/Category";
 
+interface CategoryDescription{
+  description:string;
+}
+
 export async function createCategory(description:string): Promise<Category>{
+  const category : CategoryDescription = {description};
   const response = await fetch(`${baseUrl}/api/category`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(description),    
+    body: JSON.stringify(category),    
 });
-    return  await (response.json());
+   const responseJSON = await (response.json());
+   return responseJSON.category;
 }
